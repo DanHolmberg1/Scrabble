@@ -1,0 +1,69 @@
+movable-square {
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  position: absolute;
+  cursor: grab;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(15, 40px);
+  gap: 2px;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add styles for special tiles */
+.cell[data-special="starting-square"] {
+  background-color: gray;
+}
+
+.cell[data-special="double-word"] {
+  background-color: #ffcc00;
+}
+.cell[data-special="double-letter"] {
+  background-color: green;
+}
+
+.cell[data-special="triple-letter"] {
+  background-color: blue;
+}
+
+.cell[data-special="triple-word"] {
+  background-color: red;
+}
+
+.tiles-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px;
+}
+
+.tile {
+  width: 30px;
+  height: 30px;
+  background-color: skyblue;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  user-select: none; /* Prevents the text selection cursor */
+}
