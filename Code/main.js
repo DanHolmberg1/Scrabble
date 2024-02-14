@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var q = require("../lib/queue_array");
+var randomLetters_1 = require("../lib/randomLetters");
 function createBoard(boardElement, rows, cols) {
     for (var row = 0; row < rows; row++) {
         var _loop_1 = function (col) {
@@ -101,33 +102,6 @@ var speicalSquares = [
     [0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1, 0],
     [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
 ];
-function generateRandomLetters() {
-    var letters = ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'C', 'D', 'D', 'D', 'D', 'D', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'F', 'F',
-        'G', 'G', 'G', 'H', 'H', 'I', 'I', 'I', 'I', 'I', 'J', 'K', 'K', 'K', 'L', 'L', 'L', 'L', 'L', 'M', 'M', 'M', 'N', 'N', 'N',
-        'N', 'N', 'O', 'O', 'O', 'O', 'O', 'P', 'P', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
-        'S', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'U', 'U', 'U', 'V', 'V', 'X', 'Y', 'Z', 'Å', 'Å', 'Ä', 'Ä', 'Ö', 'Ö'];
-    var randomLetters = q.empty();
-    var lettersScrambled = shuffle(letters);
-    for (var i = 0; i < lettersScrambled.length; i++) {
-        q.enqueue(lettersScrambled[i], randomLetters);
-    }
-    return randomLetters;
-}
-function shuffle(array) {
-    var _a;
-    var currentIndex = array.length, randomIndex;
-    // While there remain elements to shuffle.
-    while (currentIndex > 0) {
-        // Pick a remaining element.
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-        // And swap it with the current element.
-        _a = [
-            array[randomIndex], array[currentIndex]
-        ], array[currentIndex] = _a[0], array[randomIndex] = _a[1];
-    }
-    return array;
-}
 function createTilesForLetters(containerId, letters) {
     var container = document.getElementById(containerId);
     // Check if the container exists before proceeding.
@@ -135,25 +109,29 @@ function createTilesForLetters(containerId, letters) {
         console.error("Container with ID ".concat(containerId, " not found."));
         return; // Exit the function early if container is null.
     }
-    letters.forEach(function (letter, index) {
-        var tile = document.createElement("div");
-        tile.textContent = letter;
-        tile.id = "tile-".concat(containerId, "-").concat(index); // Unique ID for each tile
-        tile.classList.add("tile"); // Use this class for styling and drag event binding
-        tile.setAttribute("draggable", "true");
-        container.appendChild(tile); // Append the tile to the container
-    });
+    for (var i = 0; i < letters.length; i++) {
+        var tile = document.createElement('div');
+        tile.classList.add('tile');
+        tile.id = "tile-".concat(containerId, "-").concat(i);
+        tile.textContent = letters[i];
+        tile.setAttribute('draggable', 'true');
+        container.appendChild(tile);
+    }
 }
 document.addEventListener("DOMContentLoaded", function () {
     var boardElement = document.getElementById("board");
     if (boardElement) {
         createBoard(boardElement, 15, 15); // Your existing board creation logic
     }
-    // Gör om för att funka med queues.
-    //const leftLetters = generateRandomLetters(7);
-    //const rightLetters = generateRandomLetters(7);
-    //createTilesForLetters("leftTiles", leftLetters);
-    //createTilesForLetters("rightTiles", rightLetters);
+    var letterQueue = (0, randomLetters_1.generateRandomLetters)();
+    var leftLetters = '';
+    var rightLetters = '';
+    for (var i = 0; i < 7; i++) {
+        leftLetters += q.dequeue(letterQueue);
+        rightLetters += q.dequeue(letterQueue);
+    }
+    createTilesForLetters("leftTiles", leftLetters);
+    createTilesForLetters("rightTiles", rightLetters);
     // Make sure to call this after creating the tiles
     makeTilesDraggable();
 });
