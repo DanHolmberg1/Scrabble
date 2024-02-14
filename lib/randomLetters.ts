@@ -1,4 +1,4 @@
-import * as q from '../lib/queue_array';
+import * as q from './queue_array';
 
 
 export function generateRandomLetters(): q.Queue<string> {

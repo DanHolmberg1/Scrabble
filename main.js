@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var q = require("../lib/queue_array");
-var randomLetters_1 = require("../lib/randomLetters");
+var q = require("./lib/queue_array");
+var randomLetters_1 = require("./lib/randomLetters");
 function createBoard(boardElement, rows, cols) {
     for (var row = 0; row < rows; row++) {
         var _loop_1 = function (col) {

@@ -1,5 +1,5 @@
-import * as q from '../lib/queue_array'
-import {generateRandomLetters} from '../lib/randomLetters';
+import * as q from './lib/queue_array';
+import {generateRandomLetters} from './lib/randomLetters';
 
 
 function createBoard(
