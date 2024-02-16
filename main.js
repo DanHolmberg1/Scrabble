@@ -1,7 +1,93 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var q = require("./lib/queue_array");
-var randomLetters_1 = require("./lib/randomLetters");
+//import * as q from './queue_array';
+//import {generateRandomLetters} from './randomLetters';
+/**
+ * Constructs a queue without any elements.
+ * @template T type of all queue elements
+ * @returns Returns an empty queue.
+ */
+function empty() {
+    return [0, 0, []];
+}
+/**
+ * Checks whether a queue is empty.
+ * @template T type of all queue elements
+ * @param q queue to check for emptiness
+ * @returns Returns true, if the queue q has elements, false otherwise.
+ */
+function is_empty(q) {
+    return q[0] === q[1];
+}
+/**
+ * Adds an element to the queue.
+ * @template T type of all queue elements
+ * @param e element to add
+ * @param q queue to modify
+ * @modifies q by adding element e to the end
+ */
+function enqueue(e, q) {
+    var tail_index = q[1];
+    q[2][tail_index] = e;
+    q[1] = tail_index + 1; // update tail index
+}
+/**
+ * Retrieves the first element of the queue.
+ * @precondition Assumes q to be non-empty
+ * @template T type of all queue elements
+ * @param q queue to get the first element of
+ * @returns Returns the element of the queue that was enqueued first.
+ */
+function head(q) {
+    var head_index = q[0];
+    return q[2][head_index];
+}
+/**
+ * Removes the first element of a queue.
+ * @precondition Assumes q to be non-empty
+ * @template T type of all queue elements
+ * @param q queue to remove the element from
+ * @modifies q such that the element that was enqueued first is removed
+ */
+function dequeue(q) {
+    var head_index = q[0];
+    q[0] = head_index + 1;
+}
+/**
+ * Pretty-prints the contents of a queue to standard output.
+ * @template T type of all queue elements
+ * @param q queue to pretty-print
+ */
+function display_queue(q) {
+    console.log(q[2].slice(q[0], q[1]));
+}
+function generateRandomLetters() {
+    var letters = ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'C', 'D', 'D', 'D', 'D', 'D', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'F', 'F',
+        'G', 'G', 'G', 'H', 'H', 'I', 'I', 'I', 'I', 'I', 'J', 'K', 'K', 'K', 'L', 'L', 'L', 'L', 'L', 'M', 'M', 'M', 'N', 'N', 'N',
+        'N', 'N', 'O', 'O', 'O', 'O', 'O', 'P', 'P', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'R', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+        'S', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'U', 'U', 'U', 'V', 'V', 'X', 'Y', 'Z', 'Å', 'Å', 'Ä', 'Ä', 'Ö', 'Ö'];
+    var randomLetters = empty();
+    var lettersScrambled = shuffle(letters);
+    for (var i = 0; i < lettersScrambled.length; i++) {
+        enqueue(lettersScrambled[i], randomLetters);
+    }
+    return randomLetters;
+}
+function shuffle(array) {
+    var _a;
+    var currentIndex = array.length, randomIndex;
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        // And swap it with the current element.
+        _a = [
+            array[randomIndex], array[currentIndex]
+        ], array[currentIndex] = _a[0], array[randomIndex] = _a[1];
+    }
+    return array;
+}
+//
 function createBoard(boardElement, rows, cols) {
     for (var row = 0; row < rows; row++) {
         var _loop_1 = function (col) {
@@ -123,12 +209,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (boardElement) {
         createBoard(boardElement, 15, 15); // Your existing board creation logic
     }
-    var letterQueue = (0, randomLetters_1.generateRandomLetters)();
+    var letterQueue = generateRandomLetters();
     var leftLetters = '';
     var rightLetters = '';
     for (var i = 0; i < 7; i++) {
-        leftLetters += q.dequeue(letterQueue);
-        rightLetters += q.dequeue(letterQueue);
+        leftLetters += dequeue(letterQueue);
+        rightLetters += dequeue(letterQueue);
     }
     createTilesForLetters("leftTiles", leftLetters);
     createTilesForLetters("rightTiles", rightLetters);

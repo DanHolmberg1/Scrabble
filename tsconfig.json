@@ -1,7 +1,14 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "ES6",
-    "strict": true,
-  }
+    "module": "es6",
+    "moduleResolution": "node",
+  },
+  "include": [
+    "*.ts",
+    "./lib/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
