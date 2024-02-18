@@ -1,14 +1,18 @@
-import * as q from './lib/queue_array';
-import {generateRandomLetters} from './lib/randomLetters';
+type cell<A, B> = { row: A; col: A; special: A; char: B };
 
+let gameBoard: Array<Array<Array<cell<number, string>>>> = [];
 
 function createBoard(
-    boardElement: HTMLElement, 
-    rows: number, 
-    cols: number
+  boardElement: HTMLElement,
+  rows: number,
+  cols: number
 ): void {
   for (let row = 0; row < rows; row++) {
+    gameBoard.push([]);
+
     for (let col = 0; col < cols; col++) {
+      gameBoard[row].push([{ row: row, col: col, special: 0, char: "" }]);
+
       const cell = document.createElement("div");
       const id: string = String(row + "" + col);
       cell.classList.add("cell");
@@ -19,13 +23,16 @@ function createBoard(
       });
 
       cell.addEventListener("drop", (event) => {
+        ////This checks when tile is dropped on cell
         event.preventDefault();
         if (!event.dataTransfer) {
           throw new Error("event.dataTransfer does not exist");
         }
         const draggableId = event.dataTransfer.getData("text");
+        console.log(draggableId);
         const draggable = document.getElementById(draggableId);
-
+        console.log(draggable);
+        console.log(event);
         if (draggable && cell) {
           cell.appendChild(draggable);
           cell.classList.remove("over"); // Cleanup visual cue.
@@ -75,6 +82,7 @@ function makeTilesDraggable(): void {
 
     tile.addEventListener("dragstart", (event) => {
       const DragEvent = event as DragEvent;
+
       if (DragEvent.dataTransfer) {
         DragEvent.dataTransfer.setData("text", tile.id); // Correctly access dataTransfer
       }
@@ -90,6 +98,7 @@ function makeTilesDraggable(): void {
   4 = Triple Word
   5 = Start square
   */
+
 const speicalSquares: number[][] = [
   [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
   [0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1, 0],
@@ -108,8 +117,6 @@ const speicalSquares: number[][] = [
   [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
 ];
 
-
-
 function createTilesForLetters(containerId: string, letters: string): void {
   const container = document.getElementById(containerId);
 
@@ -118,30 +125,23 @@ function createTilesForLetters(containerId: string, letters: string): void {
     console.error(`Container with ID ${containerId} not found.`);
     return; // Exit the function early if container is null.
   }
-  for(let i = 0; i < letters.length; i++) {
-    const tile = document.createElement('div');
-    tile.classList.add('tile');
+  for (let i = 0; i < letters.length; i++) {
+    const tile = document.createElement("div");
+    tile.classList.add("tile");
     tile.id = `tile-${containerId}-${i}`;
     tile.textContent = letters[i];
-    tile.setAttribute('draggable', 'true');
+    tile.setAttribute("draggable", "true");
     container.appendChild(tile);
   }
 }
-  
+
 document.addEventListener("DOMContentLoaded", () => {
   const boardElement = document.getElementById("board");
   if (boardElement) {
     createBoard(boardElement, 15, 15); // Your existing board creation logic
   }
-  let letterQueue: q.Queue<string> = generateRandomLetters();
-  
-  let leftLetters: string = '';
-  let rightLetters: string = '';
-
-  for(let i = 0; i < 7; i++) {
-    leftLetters += q.dequeue(letterQueue)
-    rightLetters += q.dequeue(letterQueue)
-  }
+  let leftLetters: string = "aba";
+  let rightLetters: string = "a";
 
   createTilesForLetters("leftTiles", leftLetters);
   createTilesForLetters("rightTiles", rightLetters);

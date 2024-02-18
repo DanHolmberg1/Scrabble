@@ -1,10 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var q = require("./lib/queue_array");
-var randomLetters_1 = require("./lib/randomLetters");
+var gameBoard = [];
 function createBoard(boardElement, rows, cols) {
     for (var row = 0; row < rows; row++) {
+        gameBoard.push([]);
         var _loop_1 = function (col) {
+            gameBoard[row].push([{ row: row, col: col, special: 0, char: "" }]);
             var cell = document.createElement("div");
             var id = String(row + "" + col);
             cell.classList.add("cell");
@@ -13,12 +12,16 @@ function createBoard(boardElement, rows, cols) {
                 cell.classList.add("over"); // Optional: Visual cue.
             });
             cell.addEventListener("drop", function (event) {
+                ////This checks when tile is dropped on cell
                 event.preventDefault();
                 if (!event.dataTransfer) {
                     throw new Error("event.dataTransfer does not exist");
                 }
                 var draggableId = event.dataTransfer.getData("text");
+                console.log(draggableId);
                 var draggable = document.getElementById(draggableId);
+                console.log(draggable);
+                console.log(event);
                 if (draggable && cell) {
                     cell.appendChild(draggable);
                     cell.classList.remove("over"); // Cleanup visual cue.
@@ -110,11 +113,11 @@ function createTilesForLetters(containerId, letters) {
         return; // Exit the function early if container is null.
     }
     for (var i = 0; i < letters.length; i++) {
-        var tile = document.createElement('div');
-        tile.classList.add('tile');
+        var tile = document.createElement("div");
+        tile.classList.add("tile");
         tile.id = "tile-".concat(containerId, "-").concat(i);
         tile.textContent = letters[i];
-        tile.setAttribute('draggable', 'true');
+        tile.setAttribute("draggable", "true");
         container.appendChild(tile);
     }
 }
@@ -123,13 +126,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (boardElement) {
         createBoard(boardElement, 15, 15); // Your existing board creation logic
     }
-    var letterQueue = (0, randomLetters_1.generateRandomLetters)();
-    var leftLetters = '';
-    var rightLetters = '';
-    for (var i = 0; i < 7; i++) {
-        leftLetters += q.dequeue(letterQueue);
-        rightLetters += q.dequeue(letterQueue);
-    }
+    var leftLetters = "aba";
+    var rightLetters = "a";
     createTilesForLetters("leftTiles", leftLetters);
     createTilesForLetters("rightTiles", rightLetters);
     // Make sure to call this after creating the tiles
