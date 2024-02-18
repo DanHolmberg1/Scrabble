@@ -345,15 +345,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let letterQueue: Queue<string> = generateRandomLetters();
-
   let leftLetters: string = "";
   let rightLetters: string = "";
 
   for (let i = 0; i < 7; i++) {
-    leftLetters += dequeue(letterQueue);
-    rightLetters += dequeue(letterQueue);
+    leftLetters +=head(letterQueue)
+    dequeue(letterQueue);
+    rightLetters += head(letterQueue);
+    dequeue(letterQueue);
   }
-
   createTilesForLetters("leftTiles", leftLetters);
   createTilesForLetters("rightTiles", rightLetters);
 

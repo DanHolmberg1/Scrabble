@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Constructs a queue without any elements.
  * @template T type of all queue elements
@@ -313,8 +314,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var leftLetters = "";
     var rightLetters = "";
     for (var i = 0; i < 7; i++) {
-        leftLetters += dequeue(letterQueue);
-        rightLetters += dequeue(letterQueue);
+        leftLetters += head(letterQueue);
+        dequeue(letterQueue);
+        rightLetters += head(letterQueue);
+        dequeue(letterQueue);
     }
     createTilesForLetters("leftTiles", leftLetters);
     createTilesForLetters("rightTiles", rightLetters);
