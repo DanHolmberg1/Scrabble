@@ -343,8 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (boardElement) {
     createBoard(boardElement, 15, 15); // Your existing board creation logic
   }
-  let leftLetters: string = "aba";
-  let rightLetters: string = "a";
+
   let letterQueue: Queue<string> = generateRandomLetters();
 
   let leftLetters: string = "";
