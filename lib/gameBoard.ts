@@ -34,7 +34,7 @@ export function createBoard(
         const draggable = document.getElementById(draggableId);
         console.log(draggable);
         console.log(event);
-        if (draggable && cell) {
+        if (draggable && cell && cell.childElementCount == 0) {
           cell.appendChild(draggable);
           cell.classList.remove("over"); // Cleanup visual cue.
         }
