@@ -1,18 +1,16 @@
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
-
-let gameBoard: Array<Array<Array<cell<number, string>>>> = [];
-
 export function createBoard(
   boardElement: HTMLElement,
   rows: number,
-  cols: number
+  cols: number,
+  board: cell<number, string>[][][]
 ): void {
   for (let row = 0; row < rows; row++) {
-    gameBoard.push([]);
+    board.push([]);
 
     for (let col = 0; col < cols; col++) {
-      gameBoard[row].push([{ row: row, col: col, special: 0, char: "" }]);
+      board[row].push([{ row: row, col: col, special: 0, char: "" }]);
 
       const cell = document.createElement("div");
       const id: string = String(row + " " + col);
@@ -34,7 +32,7 @@ export function createBoard(
         const draggable = document.getElementById(draggableId);
         console.log(draggable);
         console.log(event);
-        if (draggable && cell) {
+        if (draggable && cell && cell.childElementCount == 0) {
           cell.appendChild(draggable);
           cell.classList.remove("over"); // Cleanup visual cue.
         }

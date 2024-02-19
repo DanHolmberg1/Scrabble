@@ -1,6 +1,8 @@
 import * as q from './lib/queue_array';
 import {generateRandomLetters} from './lib/randomLetters';
-import { createBoard, type cell } from './lib/gameBoard';
+import {createBoard, type cell } from './lib/gameBoard';
+
+let gameBoard: Array<Array<Array<cell<number, string>>>> = [];
 
 function makeTilesDraggable(): void {
   // Query all your draggable tiles by a common class or other selector.
@@ -17,33 +19,6 @@ function makeTilesDraggable(): void {
     });
   });
 }
-
-/*
-  0 = normal square
-  1 = Double Letter
-  2 = Triple letter
-  3 = Double Word
-  4 = Triple Word
-  5 = Start square
-  */
-
-const speicalSquares: number[][] = [
-  [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
-  [0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1, 0],
-  [0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-  [0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0],
-  [4, 0, 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4],
-  [0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-  [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-  [1, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 0, 1],
-  [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-  [0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-  [4, 0, 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4],
-  [0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0],
-  [0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-  [0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1, 0],
-  [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
-];
 
 function createTilesForLetters(containerId: string, letters: string): void {
   const container = document.getElementById(containerId);
@@ -66,7 +41,7 @@ function createTilesForLetters(containerId: string, letters: string): void {
 document.addEventListener("DOMContentLoaded", () => {
   const boardElement = document.getElementById("board");
   if (boardElement) {
-    createBoard(boardElement, 15, 15); // Your existing board creation logic
+    createBoard(boardElement, 15, 15, gameBoard); // Your existing board creation logic
   }
 
   let letterQueue: q.Queue<string> = generateRandomLetters();
