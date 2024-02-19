@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
 var gameBoard_1 = require("./lib/gameBoard");
+var gameBoard = [];
 function makeTilesDraggable() {
     // Query all your draggable tiles by a common class or other selector.
     var tiles = document.querySelectorAll(".tile"); // Assuming '.tile' class for your tiles.
@@ -16,31 +17,6 @@ function makeTilesDraggable() {
         });
     });
 }
-/*
-  0 = normal square
-  1 = Double Letter
-  2 = Triple letter
-  3 = Double Word
-  4 = Triple Word
-  5 = Start square
-  */
-var speicalSquares = [
-    [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
-    [0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1, 0],
-    [0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0],
-    [4, 0, 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4],
-    [0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-    [1, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 0, 1],
-    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-    [0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
-    [4, 0, 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4],
-    [0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0],
-    [0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
-    [0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1, 0],
-    [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
-];
 function createTilesForLetters(containerId, letters) {
     var container = document.getElementById(containerId);
     // Check if the container exists before proceeding.
@@ -60,7 +36,7 @@ function createTilesForLetters(containerId, letters) {
 document.addEventListener("DOMContentLoaded", function () {
     var boardElement = document.getElementById("board");
     if (boardElement) {
-        (0, gameBoard_1.createBoard)(boardElement, 15, 15); // Your existing board creation logic
+        (0, gameBoard_1.createBoard)(boardElement, 15, 15, gameBoard); // Your existing board creation logic
     }
     var letterQueue = (0, randomLetters_1.generateRandomLetters)();
     var leftLetters = "";
