@@ -7,13 +7,11 @@ type User = {
 
 let player1 = {
     currentScore: 0,
-    currentTiles: [],
     user: ""
 }
 
 let player2 = {
     currentScore: 0,
-    currentTiles: [],
     user: ""
 }
 
