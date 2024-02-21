@@ -2,8 +2,99 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
-var gameBoard_1 = require("./lib/gameBoard");
 var gameBoard = [];
+function createBoard(boardElement, rows, cols, board) {
+    for (var row = 0; row < rows; row++) {
+        board.push([]);
+        var _loop_1 = function (col) {
+            board[row].push([{ row: row, col: col, special: 0, char: "" }]);
+            var cell = document.createElement("div");
+            var id = String(row + " " + col);
+            cell.classList.add("cell");
+            cell.addEventListener("dragover", function (event) {
+                event.preventDefault(); // Allows us to drop.
+                cell.classList.add("over"); // Optional: Visual cue.
+            });
+            cell.addEventListener("drop", function (event) {
+                var _a;
+                ////This checks when tile is dropped on cell
+                event.preventDefault();
+                if (!event.dataTransfer) {
+                    throw new Error("event.dataTransfer does not exist");
+                }
+                var draggableId = event.dataTransfer.getData("text");
+                //console.log(draggableId);
+                var draggable = document.getElementById(draggableId);
+                //console.log(draggable);
+                //console.log(event);
+                var dropTargetId = (_a = event.target) === null || _a === void 0 ? void 0 : _a.id;
+                var onRow = dropTargetId.substring(0, dropTargetId.indexOf(" "));
+                var onColl = dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1);
+                var gameBoardObjNow = gameBoard[onRow][onColl];
+                if (draggable && cell && cell.childElementCount == 0) {
+                    gameBoardObjNow.char = draggable.innerText;
+                    //console.log(gameBoard);
+                    //console.log("after");
+                    cell.appendChild(draggable);
+                    cell.classList.remove("over"); // Cleanup visual cue.
+                }
+            });
+            cell.addEventListener("dragleave", function () {
+                cell.classList.remove("over"); // Cleanup visual cue.
+            });
+            if (speicalSquares[row][col] === 0) {
+                boardElement.appendChild(cell);
+                cell.setAttribute("id", id);
+            }
+            else if (speicalSquares[row][col] === 1) {
+                cell.textContent = "DL";
+                cell.setAttribute("data-special", "double-letter");
+                cell.setAttribute("id", id);
+            }
+            else if (speicalSquares[row][col] === 2) {
+                cell.textContent = "TL";
+                cell.setAttribute("data-special", "triple-letter");
+                cell.setAttribute("id", id);
+            }
+            else if (speicalSquares[row][col] === 3) {
+                cell.textContent = "DW";
+                cell.setAttribute("data-special", "double-word");
+                cell.setAttribute("id", id);
+            }
+            else if (speicalSquares[row][col] === 4) {
+                cell.textContent = "TW";
+                cell.setAttribute("data-special", "triple-word");
+                cell.setAttribute("id", id);
+            }
+            else if (speicalSquares[row][col] === 5) {
+                cell.textContent = "S";
+                cell.setAttribute("data-special", "starting-square");
+                cell.setAttribute("id", id);
+            }
+            boardElement.appendChild(cell);
+        };
+        for (var col = 0; col < cols; col++) {
+            _loop_1(col);
+        }
+    }
+}
+var speicalSquares = [
+    [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
+    [0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1, 0],
+    [0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0],
+    [4, 0, 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4],
+    [0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+    [1, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 0, 1],
+    [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
+    [0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
+    [4, 0, 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4],
+    [0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0],
+    [0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0],
+    [0, 1, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 1, 0],
+    [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
+];
 function makeTilesDraggable() {
     // Query all your draggable tiles by a common class or other selector.
     var tiles = document.querySelectorAll(".tile"); // Assuming '.tile' class for your tiles.
@@ -13,6 +104,19 @@ function makeTilesDraggable() {
             var DragEvent = event;
             if (DragEvent.dataTransfer) {
                 DragEvent.dataTransfer.setData("text", tile.id); // Correctly access dataTransfer
+                if (!tile.parentElement) {
+                    throw new Error("tile.parentElement does not exist");
+                }
+                else {
+                    ///////////////////
+                    var dropTargetId = tile.parentElement.id;
+                    var onRow = dropTargetId.substring(0, dropTargetId.indexOf(" "));
+                    var onColl = dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1);
+                    var gameBoardObjNow = gameBoard[onRow][onColl];
+                    //////////////////A bunch of garbage code
+                    gameBoardObjNow.char = "";
+                    //console.log(gameBoard);
+                }
             }
         });
     });
@@ -36,7 +140,7 @@ function createTilesForLetters(containerId, letters) {
 document.addEventListener("DOMContentLoaded", function () {
     var boardElement = document.getElementById("board");
     if (boardElement) {
-        (0, gameBoard_1.createBoard)(boardElement, 15, 15, gameBoard); // Your existing board creation logic
+        createBoard(boardElement, 15, 15, gameBoard); // Your existing board creation logic
     }
     var letterQueue = (0, randomLetters_1.generateRandomLetters)();
     var leftLetters = "";
@@ -52,3 +156,4 @@ document.addEventListener("DOMContentLoaded", function () {
     // Make sure to call this after creating the tiles
     makeTilesDraggable();
 });
+console.log(gameBoard);
