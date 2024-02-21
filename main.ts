@@ -2,7 +2,7 @@ import * as q from "./lib/queue_array";
 import { generateRandomLetters } from "./lib/randomLetters";
 import { checkWordsOnBoard } from "./lib/spellChecker";
 
-let gameBoard: Array<Array<Array<cell<number, string>>>> = [];
+let gameBoard: Array<Array<cell<number, string>>> = [];
 
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
@@ -10,13 +10,13 @@ function createBoard(
   boardElement: HTMLElement,
   rows: number,
   cols: number,
-  board: cell<number, string>[][][]
+  board: cell<number, string>[][]
 ): void {
   for (let row = 0; row < rows; row++) {
     board.push([]);
 
     for (let col = 0; col < cols; col++) {
-      board[row].push([{ row: row, col: col, special: 0, char: "" }]);
+      board[row].push({ row: row, col: col, special: 0, char: "" });
 
       const cell = document.createElement("div");
       const id: string = String(row + " " + col);
@@ -40,15 +40,19 @@ function createBoard(
         //console.log(event);
         const dropTargetId: string | null = (event.target as HTMLElement)?.id;
 
-        const onRow = dropTargetId.substring(0, dropTargetId.indexOf(" "));
-        const onColl = dropTargetId.substring(
-          dropTargetId.lastIndexOf(" ") + 1
+        const onRow = parseInt(
+          dropTargetId.substring(0, dropTargetId.indexOf(" "))
         );
-        let gameBoardObjNow = gameBoard[onRow][onColl];
-
+        const onColl = parseInt(
+          dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1)
+        );
+        //console.log(onRow);
+        //console.log(onColl);
+        const gameBoardObjNow = gameBoard[onRow][onColl];
+        //console.log(gameBoardObjNow);
         if (draggable && cell && cell.childElementCount == 0) {
           gameBoardObjNow.char = draggable.innerText;
-          //console.log(gameBoard);
+          console.log(gameBoard);
           //console.log("after");
           cell.appendChild(draggable);
           cell.classList.remove("over"); // Cleanup visual cue.
@@ -123,11 +127,13 @@ function makeTilesDraggable(): void {
         } else {
           ///////////////////
           const dropTargetId: string | null = tile.parentElement.id;
-          const onRow = dropTargetId.substring(0, dropTargetId.indexOf(" "));
-          const onColl = dropTargetId.substring(
-            dropTargetId.lastIndexOf(" ") + 1
+          const onRow = parseInt(
+            dropTargetId.substring(0, dropTargetId.indexOf(" "))
           );
-          let gameBoardObjNow = gameBoard[onRow][onColl];
+          const onColl = parseInt(
+            dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1)
+          );
+          const gameBoardObjNow = gameBoard[onRow][onColl];
           //////////////////A bunch of garbage code
 
           gameBoardObjNow.char = "";

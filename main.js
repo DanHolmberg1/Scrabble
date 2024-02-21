@@ -7,7 +7,7 @@ function createBoard(boardElement, rows, cols, board) {
     for (var row = 0; row < rows; row++) {
         board.push([]);
         var _loop_1 = function (col) {
-            board[row].push([{ row: row, col: col, special: 0, char: "" }]);
+            board[row].push({ row: row, col: col, special: 0, char: "" });
             var cell = document.createElement("div");
             var id = String(row + " " + col);
             cell.classList.add("cell");
@@ -28,12 +28,15 @@ function createBoard(boardElement, rows, cols, board) {
                 //console.log(draggable);
                 //console.log(event);
                 var dropTargetId = (_a = event.target) === null || _a === void 0 ? void 0 : _a.id;
-                var onRow = dropTargetId.substring(0, dropTargetId.indexOf(" "));
-                var onColl = dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1);
+                var onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
+                var onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
+                //console.log(onRow);
+                //console.log(onColl);
                 var gameBoardObjNow = gameBoard[onRow][onColl];
+                //console.log(gameBoardObjNow);
                 if (draggable && cell && cell.childElementCount == 0) {
                     gameBoardObjNow.char = draggable.innerText;
-                    //console.log(gameBoard);
+                    console.log(gameBoard);
                     //console.log("after");
                     cell.appendChild(draggable);
                     cell.classList.remove("over"); // Cleanup visual cue.
@@ -110,8 +113,8 @@ function makeTilesDraggable() {
                 else {
                     ///////////////////
                     var dropTargetId = tile.parentElement.id;
-                    var onRow = dropTargetId.substring(0, dropTargetId.indexOf(" "));
-                    var onColl = dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1);
+                    var onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
+                    var onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
                     var gameBoardObjNow = gameBoard[onRow][onColl];
                     //////////////////A bunch of garbage code
                     gameBoardObjNow.char = "";
