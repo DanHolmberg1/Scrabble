@@ -1,5 +1,6 @@
 import * as q from "./lib/queue_array";
 import { generateRandomLetters } from "./lib/randomLetters";
+import { checkWordsOnBoard } from "./lib/spellChecker";
 
 let gameBoard: Array<Array<Array<cell<number, string>>>> = [];
 
