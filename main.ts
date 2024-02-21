@@ -52,8 +52,10 @@ function createBoard(
         //console.log(gameBoardObjNow);
         if (draggable && cell && cell.childElementCount == 0) {
           gameBoardObjNow.char = draggable.innerText;
+
           console.log(gameBoard);
-          //console.log("after");
+          console.log("after");
+          console.log("spellchecking", checkWordsOnBoard(gameBoard));
           cell.appendChild(draggable);
           cell.classList.remove("over"); // Cleanup visual cue.
         }
@@ -64,25 +66,31 @@ function createBoard(
       });
 
       if (speicalSquares[row][col] === 0) {
+        board[row][col].special = 0;
         boardElement.appendChild(cell);
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 1) {
+        board[row][col].special = 1;
         cell.textContent = "DL";
         cell.setAttribute("data-special", "double-letter");
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 2) {
+        board[row][col].special = 2;
         cell.textContent = "TL";
         cell.setAttribute("data-special", "triple-letter");
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 3) {
+        board[row][col].special = 3;
         cell.textContent = "DW";
         cell.setAttribute("data-special", "double-word");
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 4) {
+        board[row][col].special = 4;
         cell.textContent = "TW";
         cell.setAttribute("data-special", "triple-word");
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 5) {
+        board[row][col].special = 5;
         cell.textContent = "S";
         cell.setAttribute("data-special", "starting-square");
         cell.setAttribute("id", id);
@@ -184,5 +192,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // Make sure to call this after creating the tiles
   makeTilesDraggable();
 });
-
-console.log(gameBoard);

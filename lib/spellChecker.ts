@@ -39,28 +39,28 @@ function binarySearch(dictionary: string[], target: string): boolean {
 }
 
 export function checkWordsOnBoard(
-  gameBoard: Array<Array<Array<cell<number, string>>>>
+  gameBoard: Array<Array<cell<number, string>>>
 ): boolean {
   const words: string[] = [];
 
   // Helper function to get the character at a specific position
   const getCharAt = (row: number, col: number): string => {
-    if (row < gameBoard.length && col < gameBoard[row][0].length) {
-      return gameBoard[row][0][col].char;
+    if (row < gameBoard.length && col < gameBoard[row].length) {
+      return gameBoard[row][col].char;
     }
     return ""; // Return empty string for out-of-bounds
   };
 
   // Check horizontally and vertically from each cell
   for (let row = 0; row < gameBoard.length; row++) {
-    for (let col = 0; col < gameBoard[row][0].length; col++) {
+    for (let col = 0; col < gameBoard[row].length; col++) {
       let wordHorizontal = "";
       let wordVertical = "";
 
       // Check right
       for (
         let j = col;
-        j < gameBoard[row][0].length && getCharAt(row, j) !== "";
+        j < gameBoard[row].length && getCharAt(row, j) !== "";
         j++
       ) {
         wordHorizontal += getCharAt(row, j);

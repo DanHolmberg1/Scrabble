@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
+var spellChecker_1 = require("./lib/spellChecker");
 var gameBoard = [];
 function createBoard(boardElement, rows, cols, board) {
     for (var row = 0; row < rows; row++) {
@@ -37,7 +38,8 @@ function createBoard(boardElement, rows, cols, board) {
                 if (draggable && cell && cell.childElementCount == 0) {
                     gameBoardObjNow.char = draggable.innerText;
                     console.log(gameBoard);
-                    //console.log("after");
+                    console.log("after");
+                    console.log("spellchecking", (0, spellChecker_1.checkWordsOnBoard)(gameBoard));
                     cell.appendChild(draggable);
                     cell.classList.remove("over"); // Cleanup visual cue.
                 }
@@ -46,30 +48,36 @@ function createBoard(boardElement, rows, cols, board) {
                 cell.classList.remove("over"); // Cleanup visual cue.
             });
             if (speicalSquares[row][col] === 0) {
+                board[row][col].special = 0;
                 boardElement.appendChild(cell);
                 cell.setAttribute("id", id);
             }
             else if (speicalSquares[row][col] === 1) {
+                board[row][col].special = 1;
                 cell.textContent = "DL";
                 cell.setAttribute("data-special", "double-letter");
                 cell.setAttribute("id", id);
             }
             else if (speicalSquares[row][col] === 2) {
+                board[row][col].special = 2;
                 cell.textContent = "TL";
                 cell.setAttribute("data-special", "triple-letter");
                 cell.setAttribute("id", id);
             }
             else if (speicalSquares[row][col] === 3) {
+                board[row][col].special = 3;
                 cell.textContent = "DW";
                 cell.setAttribute("data-special", "double-word");
                 cell.setAttribute("id", id);
             }
             else if (speicalSquares[row][col] === 4) {
+                board[row][col].special = 4;
                 cell.textContent = "TW";
                 cell.setAttribute("data-special", "triple-word");
                 cell.setAttribute("id", id);
             }
             else if (speicalSquares[row][col] === 5) {
+                board[row][col].special = 5;
                 cell.textContent = "S";
                 cell.setAttribute("data-special", "starting-square");
                 cell.setAttribute("id", id);
@@ -159,4 +167,3 @@ document.addEventListener("DOMContentLoaded", function () {
     // Make sure to call this after creating the tiles
     makeTilesDraggable();
 });
-console.log(gameBoard);
