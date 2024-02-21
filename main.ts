@@ -4,7 +4,7 @@ import { checkWordsOnBoard } from "./lib/spellChecker";
 
 let gameBoard: Array<Array<Array<cell<number, string>>>> = [];
 
-type cell<A, B> = { row: A; col: A; special: A; char: B };
+export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
 function createBoard(
   boardElement: HTMLElement,
