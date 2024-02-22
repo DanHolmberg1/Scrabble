@@ -1,3 +1,5 @@
+import { cell } from "../main";
+
 type PlayerNumber = 1 | 2;
 type User = {
   userName: string;
@@ -8,17 +10,19 @@ type User = {
 type Player = {
   currentScore: number;
   user: string;
-  currentWord: Array<string>;
+  currentWord: Array<cell<number, string>>;
 };
 
 let player1 = {
   currentScore: 0,
   user: "",
+  currentWord: [],
 };
 
 let player2 = {
   currentScore: 0,
   user: "",
+  currentWord: [],
 };
 
 function getPlayerScore(player: PlayerNumber): number {
