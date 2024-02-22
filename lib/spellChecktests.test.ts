@@ -1,4 +1,12 @@
 import { checkWordsOnBoard } from "./spellChecker";
+let library: string[] = [];
+
+fetch('lib/Collins Scrabble Words (2019).txt')
+    .then(response => response.text())
+    .then(text => {
+      library = text.split('\n');
+    })
+    .catch(error => console.error('Error loading the text file:', error));
 
 const testBoard = [
   [
@@ -1384,5 +1392,5 @@ const testBoard = [
 ];
 
 test("checkWordsOnBoard", () => {
-  expect(checkWordsOnBoard(testBoard)).toEqual(true);
+  expect(checkWordsOnBoard(testBoard, library)).toEqual(true);
 });

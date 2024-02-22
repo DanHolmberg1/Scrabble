@@ -5,6 +5,17 @@ import { checkWordsOnBoard } from "./lib/spellChecker";
 let gameBoard: Array<Array<cell<number, string>>> = [];
 
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
+let library: string[] = [];
+
+fetch('lib/Collins Scrabble Words (2019).txt')
+    .then(response => response.text())
+    .then(text => {
+      library = text.split('\n');
+    })
+    .catch(error => console.error('Error loading the text file:', error));
+
+
+
 
 function createBoard(
   boardElement: HTMLElement,
@@ -58,7 +69,7 @@ function createBoard(
 
           console.log(gameBoard);
           console.log("after");
-          console.log("spellchecking", checkWordsOnBoard(gameBoard));
+          console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
           cell.appendChild(draggable);
           cell.classList.remove("over"); // Cleanup visual cue.
         }

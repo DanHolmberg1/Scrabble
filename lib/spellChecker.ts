@@ -2,16 +2,6 @@ import { type cell } from "../main";
 
 const memo: string[] = [];
 
-let library: string[] = [];
-
-fetch("libCollins Scrabble Words (2019).txt")
-  .then((response) => response.text())
-  .then((text) => {
-    library = text.split(/\r?\n/);
-  })
-  .catch((error) => console.error("Error loading the words file:", error));
-
-console.log(library[30]);
 const isValidWord = (word: string): boolean => {
   return memo.includes(word);
 };
@@ -21,13 +11,12 @@ function binarySearch(dictionary: string[], target: string): boolean {
   let high = dictionary.length - 1;
 
   while (low <= high) {
-    const mid = Math.floor(low + (high - low) / 2);
+    const mid = Math.floor((low + high) / 2);
     const guess = dictionary[mid];
 
     if (guess === target) {
       return true; // Word found
     }
-
     if (guess < target) {
       low = mid + 1;
     } else {
@@ -39,7 +28,8 @@ function binarySearch(dictionary: string[], target: string): boolean {
 }
 
 export function checkWordsOnBoard(
-  gameBoard: Array<Array<cell<number, string>>>
+  gameBoard: Array<Array<cell<number, string>>>,
+  library: string[]
 ): boolean {
   const words: string[] = [];
 
@@ -51,37 +41,40 @@ export function checkWordsOnBoard(
     return ""; // Return empty string for out-of-bounds
   };
 
-  // Check horizontally and vertically from each cell
+  // Improved word collection to avoid adding all subwords indiscriminately
   for (let row = 0; row < gameBoard.length; row++) {
+    let wordHorizontal = "";
     for (let col = 0; col < gameBoard[row].length; col++) {
-      let wordHorizontal = "";
-      let wordVertical = "";
-
-      // Check right
-      for (
-        let j = col;
-        j < gameBoard[row].length && getCharAt(row, j) !== "";
-        j++
-      ) {
-        wordHorizontal += getCharAt(row, j);
+      // Continue building the word if the cell is not empty
+      if (getCharAt(row, col) !== "") {
+        wordHorizontal += getCharAt(row, col);
       }
-
-      // Check down
-      for (let i = row; i < gameBoard.length && getCharAt(i, col) !== ""; i++) {
-        wordVertical += getCharAt(i, col);
+      // If the next cell is empty or it's the last cell in the row, and the current word is valid, add it to the list
+      if (getCharAt(row, col + 1) === "" || col === gameBoard[row].length - 1) {
+        if (wordHorizontal.length > 1) words.push(wordHorizontal);
+        wordHorizontal = ""; // Reset for the next word
       }
-
-      if (wordHorizontal.length > 1) words.push(wordHorizontal);
-      if (wordVertical.length > 1) words.push(wordVertical);
     }
   }
 
-  const memoCheck = words.filter((word) => isValidWord(word));
-  const validWords = words.filter((word) => !binarySearch(library, word));
-  memoCheck;
-  if (validWords.length == 0) {
-    return true;
-  } else {
-    return false;
+  // Repeat the same logic for vertical words
+  for (let col = 0; col < gameBoard[0].length; col++) {
+    let wordVertical = "";
+    for (let row = 0; row < gameBoard.length; row++) {
+      if (getCharAt(row, col) !== "") {
+        wordVertical += getCharAt(row, col);
+      }
+      if (getCharAt(row + 1, col) === "" || row === gameBoard.length - 1) {
+        if (wordVertical.length > 1) words.push(wordVertical);
+        wordVertical = ""; // Reset for the next word
+      }
+    }
   }
+
+  console.log(words);
+  // Filter for valid words according to the dictionary
+  const validWords = words.filter(word => binarySearch(library, word));
+
+  // If all collected words are valid, return true; otherwise, false
+  return validWords.length === words.length;
 }
