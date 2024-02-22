@@ -13,13 +13,13 @@ type Player = {
   currentWord: Array<cell<number, string>>;
 };
 
-let player1 = {
+let player1: Player = {
   currentScore: 0,
   user: "",
   currentWord: [],
 };
 
-let player2 = {
+let player2: Player = {
   currentScore: 0,
   user: "",
   currentWord: [],
@@ -42,4 +42,14 @@ function resetScores(): void {
 
 function setUserName(player: PlayerNumber, userName: string): void {
   player == 1 ? (player1.user = userName) : (player2.user = userName);
+}
+
+function resetCurrentWord(): void {
+  player1.currentWord = [];
+  player2.currentWord = [];
+}
+
+function addToCurrentWord(player: PlayerNumber, currentCell: cell<number, string>): void {
+  player == 1 ? player1.currentWord.push(currentCell) 
+              : player2.currentWord.push(currentCell);
 }
