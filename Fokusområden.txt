@@ -7,6 +7,6 @@ David:
 
 
 Anton:
-1. Logik bakom score counter.
+1. Logik bakom score counter och att spelarena får rundor.
 
 
