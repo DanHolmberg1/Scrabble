@@ -4,6 +4,13 @@ var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
 var gameBoard = [];
+var library = [];
+fetch('lib/Collins Scrabble Words (2019).txt')
+    .then(function (response) { return response.text(); })
+    .then(function (text) {
+    library = text.split('\n');
+})
+    .catch(function (error) { return console.error('Error loading the text file:', error); });
 function createBoard(boardElement, rows, cols, board) {
     for (var row = 0; row < rows; row++) {
         board.push([]);
@@ -42,7 +49,7 @@ function createBoard(boardElement, rows, cols, board) {
                     }
                     console.log(gameBoard);
                     console.log("after");
-                    console.log("spellchecking", (0, spellChecker_1.checkWordsOnBoard)(gameBoard));
+                    console.log("spellchecking", (0, spellChecker_1.checkWordsOnBoard)(gameBoard, library));
                     cell.appendChild(draggable);
                     cell.classList.remove("over"); // Cleanup visual cue.
                 }
@@ -129,6 +136,7 @@ function makeTilesDraggable() {
                     var gameBoardObjNow = gameBoard[onRow][onColl];
                     //////////////////A bunch of garbage code
                     gameBoardObjNow.char = "";
+                    gameBoardObjNow.special;
                     //console.log(gameBoard);
                 }
             }
