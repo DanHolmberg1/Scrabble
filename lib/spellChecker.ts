@@ -71,6 +71,30 @@ export function checkWordsOnBoard(
     }
   }
 
+  const hasFreeFlowingLetters = gameBoard.some((row, rowIndex) => row.some((cell, colIndex) => {
+    if (cell.char !== "") { // Check only non-empty cells
+      const adjacentCells = [
+        rowIndex > 0 ? getCharAt(rowIndex - 1, colIndex) : "", // Up, check boundary
+        rowIndex < gameBoard.length - 1 ? getCharAt(rowIndex + 1, colIndex) : "", // Down, check boundary
+        colIndex > 0 ? getCharAt(rowIndex, colIndex - 1) : "", // Left, check boundary
+        colIndex < row.length - 1 ? getCharAt(rowIndex, colIndex + 1) : ""  // Right, check boundary
+      ];
+  
+      // Check if all adjacent cells are empty (i.e., the letter is free-flowing)
+      return adjacentCells.every(adjacent => adjacent === "");
+    }
+    return false; // Skip empty cells
+  }));
+  
+  if (hasFreeFlowingLetters) {
+    return false; // Invalid board due to a free-flowing letter
+  }
+  
+
+
+
+
+
   console.log(words);
   // Filter for valid words according to the dictionary
   const validWords = words.filter(word => binarySearch(library, word));
