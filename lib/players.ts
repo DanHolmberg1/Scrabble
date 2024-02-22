@@ -53,3 +53,19 @@ function addToCurrentWord(player: PlayerNumber, currentCell: cell<number, string
   player == 1 ? player1.currentWord.push(currentCell) 
               : player2.currentWord.push(currentCell);
 }
+
+function removeFromCurrentWord(player: PlayerNumber, currentCell: cell<number, string>): void {
+  const playerWord: Array<cell<number, string>> = (player == 1 ? player1.currentWord 
+                                                             : player2.currentWord);
+  const index: number = playerWord.indexOf(currentCell);
+  
+  if (index > -1){
+    playerWord.splice(index, 1)
+  }
+
+}
+
+function getCurrentWord(player: PlayerNumber): Array<cell<number, string>> {
+  return player == 1 ? player1.currentWord : player2.currentWord;
+}
+
