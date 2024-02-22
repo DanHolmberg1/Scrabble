@@ -5,6 +5,7 @@ var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
 var gameBoard = [];
 var library = [];
+//Gets the words from our wordlist.
 fetch('lib/Collins Scrabble Words (2019).txt')
     .then(function (response) { return response.text(); })
     .then(function (text) {

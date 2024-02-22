@@ -2,19 +2,18 @@ import * as q from "./lib/queue_array";
 import { generateRandomLetters } from "./lib/randomLetters";
 import { checkWordsOnBoard } from "./lib/spellChecker";
 
-let gameBoard: Array<Array<cell<number, string>>> = [];
-
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
-let library: string[] = [];
 
+
+let gameBoard: Array<Array<cell<number, string>>> = [];
+let library: string[] = [];
+//Gets the words from our wordlist.
 fetch('lib/Collins Scrabble Words (2019).txt')
     .then(response => response.text())
     .then(text => {
       library = text.split('\n');
     })
     .catch(error => console.error('Error loading the text file:', error));
-
-
 
 
 function createBoard(

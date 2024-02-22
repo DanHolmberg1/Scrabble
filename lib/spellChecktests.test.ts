@@ -1,12 +1,6 @@
-import { checkWordsOnBoard } from "./spellChecker";
-let library: string[] = [];
-
-fetch('lib/Collins Scrabble Words (2019).txt')
-    .then(response => response.text())
-    .then(text => {
-      library = text.split('\n');
-    })
-    .catch(error => console.error('Error loading the text file:', error));
+import { checkWordsOnBoard } from './spellChecker';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const testBoard = [
   [
@@ -1390,6 +1384,21 @@ const testBoard = [
     },
   ],
 ];
+
+let library: string[] = [];
+
+// Load the file content before running the tests
+beforeAll(() => {
+  // Adjust the path to where your file is located relative to this test file
+  const filePath = path.join(__dirname, 'Collins Scrabble Words (2019).txt');
+  try {
+    const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
+    // Split the file content into an array of lines
+    library = fileContent.split(/\r?\n/);
+  } catch (error) {
+    console.error('Error loading the text file:', error);
+  }
+});
 
 test("checkWordsOnBoard", () => {
   expect(checkWordsOnBoard(testBoard, library)).toEqual(true);
