@@ -7,10 +7,10 @@ type User = {
   highScore: number;
 };
 
-type Player = {
+export type Player = {
   currentScore: number;
   user: string;
-  currentWord: Array<cell<number, string>>;
+  currentWords: Array<cell<number, string>>;
 };
 
 let player1 = {
