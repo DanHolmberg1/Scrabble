@@ -14,11 +14,13 @@ type Player = {
 let player1 = {
   currentScore: 0,
   user: "",
+  currentWord: []
 };
 
 let player2 = {
   currentScore: 0,
   user: "",
+  currentWord: []
 };
 
 function getPlayerScore(player: PlayerNumber): number {
