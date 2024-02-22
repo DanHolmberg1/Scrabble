@@ -37,6 +37,9 @@ function createBoard(boardElement, rows, cols, board) {
                 //console.log(gameBoardObjNow);
                 if (draggable && cell && cell.childElementCount == 0) {
                     gameBoardObjNow.char = draggable.innerText;
+                    if (gameBoardObjNow.special !== 0) {
+                        cell.innerText = "";
+                    }
                     console.log(gameBoard);
                     console.log("after");
                     console.log("spellchecking", (0, spellChecker_1.checkWordsOnBoard)(gameBoard));

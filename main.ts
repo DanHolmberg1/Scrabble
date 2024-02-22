@@ -52,6 +52,9 @@ function createBoard(
         //console.log(gameBoardObjNow);
         if (draggable && cell && cell.childElementCount == 0) {
           gameBoardObjNow.char = draggable.innerText;
+          if (gameBoardObjNow.special !== 0) {
+            cell.innerText = "";
+          }
 
           console.log(gameBoard);
           console.log("after");
@@ -145,6 +148,7 @@ function makeTilesDraggable(): void {
           //////////////////A bunch of garbage code
 
           gameBoardObjNow.char = "";
+          gameBoardObjNow.special;
           //console.log(gameBoard);
         }
       }
