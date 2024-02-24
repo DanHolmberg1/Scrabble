@@ -16,13 +16,13 @@ export type Player = {
 let player1: Player = {
   currentScore: 0,
   user: "",
-  currentWord: [],
+  currentWords: [],
 };
 
 let player2: Player = {
   currentScore: 0,
   user: "",
-  currentWord: [],
+  currentWords: [],
 };
 
 export function getPlayerScore(player: PlayerNumber): number {
@@ -45,27 +45,34 @@ export function setUserName(player: PlayerNumber, userName: string): void {
 }
 
 export function resetCurrentWord(): void {
-  player1.currentWord = [];
-  player2.currentWord = [];
+  player1.currentWords = [];
+  player2.currentWords = [];
 }
 
-export function addToCurrentWord(player: PlayerNumber, currentCell: cell<number, string>): void {
-  player == 1 ? player1.currentWord.push(currentCell) 
-              : player2.currentWord.push(currentCell);
+export function addToCurrentWord(
+  player: PlayerNumber,
+  currentCell: cell<number, string>
+): void {
+  player == 1
+    ? player1.currentWords.push(currentCell)
+    : player2.currentWords.push(currentCell);
 }
 
-export function removeFromCurrentWord(player: PlayerNumber, currentCell: cell<number, string>): void {
-  const playerWord: Array<cell<number, string>> = (player == 1 ? player1.currentWord 
-                                                             : player2.currentWord);
+export function removeFromCurrentWord(
+  player: PlayerNumber,
+  currentCell: cell<number, string>
+): void {
+  const playerWord: Array<cell<number, string>> =
+    player == 1 ? player1.currentWords : player2.currentWords;
   const index: number = playerWord.indexOf(currentCell);
-  
-  if (index > -1){
-    playerWord.splice(index, 1)
+
+  if (index > -1) {
+    playerWord.splice(index, 1);
   }
-
 }
 
-export function getCurrentWord(player: PlayerNumber): Array<cell<number, string>> {
-  return player == 1 ? player1.currentWord : player2.currentWord;
+export function getCurrentWord(
+  player: PlayerNumber
+): Array<cell<number, string>> {
+  return player == 1 ? player1.currentWords : player2.currentWords;
 }
-

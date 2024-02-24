@@ -1,3 +1,4 @@
+import { get } from "http";
 import { cell } from "../main";
 import { Player } from "./players";
 
@@ -30,131 +31,1519 @@ const pointList = {
   z: 10,
 };
 
-function getPoints(
+const testBoard = [
+  [
+    {
+      row: 0,
+      col: 0,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 4,
+      special: 4,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 7,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 8,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 10,
+      special: 4,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 0,
+      col: 14,
+      special: 2,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 1,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 1,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 5,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 8,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 9,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 10,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 13,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 1,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 2,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 2,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 6,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 8,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 10,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 12,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 2,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 3,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 3,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 7,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 8,
+      special: 0,
+      char: "T",
+    },
+    {
+      row: 3,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 10,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 11,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 3,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 4,
+      col: 0,
+      special: 4,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 4,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 6,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 8,
+      special: 1,
+      char: "K",
+    },
+    {
+      row: 4,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 10,
+      special: 3,
+      char: "U",
+    },
+    {
+      row: 4,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 4,
+      col: 14,
+      special: 4,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 5,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 1,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 5,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 8,
+      special: 0,
+      char: "I",
+    },
+    {
+      row: 5,
+      col: 9,
+      special: 2,
+      char: "U",
+    },
+    {
+      row: 5,
+      col: 10,
+      special: 0,
+      char: "B",
+    },
+    {
+      row: 5,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 13,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 5,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 6,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 2,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 4,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 8,
+      special: 0,
+      char: "E",
+    },
+    {
+      row: 6,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 10,
+      special: 1,
+      char: "J",
+    },
+    {
+      row: 6,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 12,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 6,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 7,
+      col: 0,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 3,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 7,
+      special: 5,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 8,
+      special: 0,
+      char: "C",
+    },
+    {
+      row: 7,
+      col: 9,
+      special: 0,
+      char: "A",
+    },
+    {
+      row: 7,
+      col: 10,
+      special: 0,
+      char: "R",
+    },
+    {
+      row: 7,
+      col: 11,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 7,
+      col: 14,
+      special: 1,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 8,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 2,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 4,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 8,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 10,
+      special: 1,
+      char: "I",
+    },
+    {
+      row: 8,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 12,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 8,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 9,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 1,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 5,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 8,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 9,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 10,
+      special: 0,
+      char: "Q",
+    },
+    {
+      row: 9,
+      col: 11,
+      special: 0,
+      char: "A",
+    },
+    {
+      row: 9,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 13,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 9,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 10,
+      col: 0,
+      special: 4,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 4,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 6,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 8,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 10,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 10,
+      col: 14,
+      special: 4,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 11,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 3,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 7,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 8,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 10,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 11,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 11,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 12,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 2,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 6,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 8,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 10,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 12,
+      special: 3,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 12,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 13,
+      col: 0,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 1,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 4,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 5,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 7,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 8,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 9,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 10,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 13,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 13,
+      col: 14,
+      special: 0,
+      char: "",
+    },
+  ],
+  [
+    {
+      row: 14,
+      col: 0,
+      special: 2,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 1,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 2,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 3,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 4,
+      special: 4,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 5,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 6,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 7,
+      special: 1,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 8,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 9,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 10,
+      special: 4,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 11,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 12,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 13,
+      special: 0,
+      char: "",
+    },
+    {
+      row: 14,
+      col: 14,
+      special: 2,
+      char: "",
+    },
+  ],
+];
+
+const testPlayer: Player = {
+  currentScore: 0,
+  user: "David",
+  currentWords: [
+    {
+      row: 9,
+      col: 10,
+      special: 0,
+      char: "Q",
+    },
+    {
+      row: 8,
+      col: 10,
+      special: 1,
+      char: "I",
+    },
+    {
+      row: 6,
+      col: 10,
+      special: 1,
+      char: "J",
+    },
+    {
+      row: 4,
+      col: 10,
+      special: 3,
+      char: "U",
+    },
+  ],
+};
+
+export function getPoints(
   gameBoard: Array<Array<cell<number, string>>>,
   player: Player
-): void {
-  const currentCell = player.currentWords[-1];
+): number {
+  let memoizedCells: Array<cell<number, string>> = [];
 
-  function treverseLeft(
+  function treverse(
     gameBoard: Array<Array<cell<number, string>>>,
     startCell: cell<number, string>,
-    currentPoints: number
+    currentPoints: number,
+    treverseRowStep: number,
+    treverseColumnStep: number,
+    playerCellsFromStart: Array<cell<number, string>>,
+    multiplier: number
   ): number {
-    const row = startCell.row;
-    const col = startCell.col;
-    if (startCell.char === "") {
-      return 0;
-    } else {
-      return (
-        currentPoints + treverseLeft(gameBoard, gameBoard[row - 1][col], 0)
-      );
-    }
-  }
-
-  function treverseRigth(
-    gameBoard: Array<Array<cell<number, string>>>,
-    startCell: cell<number, string>,
-    currentPoints: number
-  ): number {
-    const row = startCell.row;
-    const col = startCell.col;
-    if (startCell.char === "") {
-      return 0;
-    } else {
-      return (
-        currentPoints + treverseRigth(gameBoard, gameBoard[row + 1][col], 0)
-      );
-    }
-  }
-
-  function treverseUp(
-    gameBoard: Array<Array<cell<number, string>>>,
-    startCell: cell<number, string>,
-    currentPoints: number
-  ): number {
-    const row = startCell.row;
-    const col = startCell.col;
-    if (startCell.char === "") {
-      return 0;
-    } else {
-      return currentPoints + treverseUp(gameBoard, gameBoard[row][col - 1], 0);
-    }
-  }
-
-  function treverseDown(
-    gameBoard: Array<Array<cell<number, string>>>,
-    startCell: cell<number, string>,
-    currentPoints: number
-  ): number {
-    const row = startCell.row;
-    const col = startCell.col;
-    if (startCell.char === "") {
-      return 0;
-    } else {
-      return (
-        currentPoints + treverseDown(gameBoard, gameBoard[row][col + 1], 0)
-      );
-    }
-  }
-
-  function treverseCollumn(
-    gameBoard: Array<Array<cell<number, string>>>,
-    startCell: cell<number, string>,
-    currenPoints: number
-  ): number {
-    const col = startCell.col;
-    const row = startCell.row;
     const startCellChar: string = startCell.char;
-    const points = pointList[startCellChar as keyof typeof pointList];
+    let points: number = 0;
+
+    let existsInCellsArray = playerCellsFromStart.some(
+      (item) =>
+        item.row === startCell.row &&
+        item.col === startCell.col &&
+        item.special === startCell.special &&
+        item.char === startCell.char
+    );
+
+    if (startCell.special === 3 && existsInCellsArray) {
+      multiplier = 2;
+    } else if (startCell.special === 4 && existsInCellsArray) {
+      multiplier = 3;
+    }
+
+    if (startCellChar !== "") {
+      points =
+        pointList[startCellChar.toLowerCase() as keyof typeof pointList] *
+        multiplier;
+    }
+
+    if (startCell.special === 1 && existsInCellsArray) {
+      points = points * 2;
+    } else if (startCell.special === 2 && existsInCellsArray) {
+      points = points * 3;
+    }
+
+    console.log("were on this cell: ", startCell);
+
+    let existsInMemo = memoizedCells.some(
+      (item) =>
+        item.row === startCell.row &&
+        item.col === startCell.col &&
+        item.special === startCell.special &&
+        item.char === startCell.char
+    );
+    console.log("in(true) or not(false) in memory", existsInMemo);
+
+    if (existsInMemo) {
+      points = 0;
+    } else {
+      memoizedCells.push(startCell);
+    }
+
+    const row = startCell.row;
+    const col = startCell.col;
+    console.log("memoized cells: ", memoizedCells);
+
+    console.log("pointsgivven: ", points);
+
     if (startCell.char === "") {
-      startCell;
       return 0;
     } else {
       return (
-        currenPoints +
-        treverseCollumn(
+        points +
+        treverse(
           gameBoard,
-          gameBoard[row][col + 1],
-          currenPoints + points
-        ) +
-        treverseCollumn(
-          gameBoard,
-          gameBoard[row][col - 1],
-          currenPoints + points
+          gameBoard[row + treverseRowStep][col + treverseColumnStep],
+          currentPoints + points,
+          treverseRowStep,
+          treverseColumnStep,
+          playerCellsFromStart,
+          multiplier
         )
       );
     }
   }
 
-  function treverseRow(
-    gameBoard: Array<Array<cell<number, string>>>,
-    startCell: cell<number, string>,
-    currenPoints: number
-  ): number {
-    const col = startCell.col;
-    const row = startCell.row;
-    const startCellChar: string = startCell.char;
-    const points = pointList[startCellChar as keyof typeof pointList];
-    if (startCell.char === "") {
-      startCell;
-      return 0;
-    } else {
-      return (
-        currenPoints +
-        treverseRow(
-          gameBoard,
-          gameBoard[row + 1][col],
-          currenPoints + points + treverseCollumn(gameBoard)
-        ) +
-        treverseRow(
-          gameBoard,
-          gameBoard[row - 1][col],
-          currenPoints + points + treverseCollumn(gameBoard)
-        )
-      );
-    }
+  let result: number = 0;
+  player.currentWords.sort((a, b) => b.special - a.special);
+  console.log(player.currentWords);
+  for (let i = 0; i < player.currentWords.length; i++) {
+    const currentPlacedCell = player.currentWords[i];
+
+    result +=
+      treverse(gameBoard, currentPlacedCell, 0, -1, 0, player.currentWords, 1) +
+      treverse(gameBoard, currentPlacedCell, 0, 1, 0, player.currentWords, 1) +
+      treverse(gameBoard, currentPlacedCell, 0, 0, -1, player.currentWords, 1) +
+      treverse(gameBoard, currentPlacedCell, 0, 0, 1, player.currentWords, 1);
   }
 
-  treverseRow(gameBoard, player.currentWords[-1], 0);
+  return result;
 }
+
+console.log(getPoints(testBoard, testPlayer));
