@@ -2,14 +2,14 @@ import * as q from "./lib/queue_array";
 import { generateRandomLetters } from "./lib/randomLetters";
 import { checkWordsOnBoard } from "./lib/spellChecker";
 import { isTilePlaced, refreshTiles } from "./endTurn";
+import { getPoints } from "./lib/pointCounter";
+import { Player, player1, player2 } from "./lib/players";
 
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
-
 
 const submitButton = document.getElementById("submitButton");
 
 const passButton = document.getElementById("pass");
-
 
 let gameBoard: Array<Array<cell<number, string>>> = [];
 
@@ -23,15 +23,17 @@ let rightLetters: string = "";
 
 let letterQueue: q.Queue<string> = generateRandomLetters();
 
-
 //Gets the words from our wordlist.
-fetch('lib/Collins Scrabble Words (2019).txt')
-    .then(response => response.text())
-    .then(text => {
-      library = text.split('\n');
-    })
-    .catch(error => console.error('Error loading the text file:', error));
 
+fetch("lib/Collins Scrabble Words (2019).txt")
+  .then((response) => response.text())
+  .then((data) => {
+    // Split the data into an array using line breaks
+    const dataArray = data.split("\n");
+    const cleanedArray = dataArray.map((row) => row.replace(/\r/g, ""));
+    library = cleanedArray;
+  })
+  .catch((error) => console.error("Error reading the file:", error));
 
 function createBoard(
   boardElement: HTMLElement,
@@ -62,35 +64,48 @@ function createBoard(
         const draggableId = event.dataTransfer.getData("text");
         const draggable = document.getElementById(draggableId);
         const dropTargetId: string | null = (event.target as HTMLElement)?.id;
-      
+
         if (draggable && cell && cell.childElementCount == 0) {
           const tileCharacter = draggable.innerText;
           const draggableParentId = draggable.parentElement?.id;
-      
+
           // Identify source container and remove character from the corresponding array
           if (draggableParentId && draggableParentId.includes("leftTiles")) {
-            leftLetters = leftLetters.split('').filter(c => c !== tileCharacter).join('');
-          } else if (draggableParentId && draggableParentId.includes("rightTiles")) {
-            rightLetters = rightLetters.split('').filter(c => c !== tileCharacter).join('');
+            leftLetters = leftLetters
+              .split("")
+              .filter((c) => c !== tileCharacter)
+              .join("");
+          } else if (
+            draggableParentId &&
+            draggableParentId.includes("rightTiles")
+          ) {
+            rightLetters = rightLetters
+              .split("")
+              .filter((c) => c !== tileCharacter)
+              .join("");
           }
-      
+
           // Existing logic for handling a successful drop
-          const onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
-          const onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
+          const onRow = parseInt(
+            dropTargetId.substring(0, dropTargetId.indexOf(" "))
+          );
+          const onColl = parseInt(
+            dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1)
+          );
           const gameBoardObjNow = gameBoard[onRow][onColl];
           gameBoardObjNow.char = tileCharacter;
           if (gameBoardObjNow.special !== 0) {
             cell.innerText = "";
           }
-      
+
           console.log(gameBoard);
+          console.log(library);
           console.log("after");
           console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
           cell.appendChild(draggable);
           cell.classList.remove("over"); // Cleanup visual cue.
         }
       });
-      
 
       if (speicalSquares[row][col] === 0) {
         board[row][col].special = 0;
@@ -219,32 +234,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
 if (submitButton) {
   submitButton.addEventListener("click", () => {
-    if(checkWordsOnBoard(gameBoard, library)) { 
+    if (checkWordsOnBoard(gameBoard, library)) {
       turn++;
-  
+
       // Logic to display the correct set of tiles and replenish letters
       const leftTiles = document.getElementById("leftTiles");
       const rightTiles = document.getElementById("rightTiles");
-  
+
       if (turn % 2 === 0) {
         // Hide right tiles, show left tiles
         if (rightTiles) rightTiles.style.display = "none";
         if (leftTiles) leftTiles.style.display = "block";
-        
+
         // Replenish leftLetters if needed and refresh UI
-        while(leftLetters.length < 7 && !q.is_empty(letterQueue)) {
+        while (leftLetters.length < 7 && !q.is_empty(letterQueue)) {
           leftLetters += q.head(letterQueue);
           q.dequeue(letterQueue);
         }
         refreshTiles("leftTiles", leftLetters);
-  
       } else {
         // Hide left tiles, show right tiles
         if (leftTiles) leftTiles.style.display = "none";
         if (rightTiles) rightTiles.style.display = "block";
-        
+
         // Replenish rightLetters if needed and refresh UI
-        while(rightLetters.length < 7 && !q.is_empty(letterQueue)) {
+        while (rightLetters.length < 7 && !q.is_empty(letterQueue)) {
           rightLetters += q.head(letterQueue);
           q.dequeue(letterQueue);
         }
@@ -252,10 +266,9 @@ if (submitButton) {
       }
     }
   });
-  
 }
 
-if (passButton){
+if (passButton) {
   passButton.addEventListener("click", () => {
     turn++;
   });

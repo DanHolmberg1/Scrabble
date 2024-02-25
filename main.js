@@ -6,6 +6,7 @@ var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
 var endTurn_1 = require("./endTurn");
 var submitButton = document.getElementById("submitButton");
+var passButton = document.getElementById("pass");
 var gameBoard = [];
 var turn = 0;
 var library = [];
@@ -13,12 +14,15 @@ var leftLetters = "";
 var rightLetters = "";
 var letterQueue = (0, randomLetters_1.generateRandomLetters)();
 //Gets the words from our wordlist.
-fetch('lib/Collins Scrabble Words (2019).txt')
+fetch("lib/Collins Scrabble Words (2019).txt")
     .then(function (response) { return response.text(); })
-    .then(function (text) {
-    library = text.split('\n');
+    .then(function (data) {
+    // Split the data into an array using line breaks
+    var dataArray = data.split("\n");
+    var cleanedArray = dataArray.map(function (row) { return row.replace(/\r/g, ""); });
+    library = cleanedArray;
 })
-    .catch(function (error) { return console.error('Error loading the text file:', error); });
+    .catch(function (error) { return console.error("Error reading the file:", error); });
 function createBoard(boardElement, rows, cols, board) {
     for (var row = 0; row < rows; row++) {
         board.push([]);
@@ -45,10 +49,17 @@ function createBoard(boardElement, rows, cols, board) {
                     var draggableParentId = (_b = draggable.parentElement) === null || _b === void 0 ? void 0 : _b.id;
                     // Identify source container and remove character from the corresponding array
                     if (draggableParentId && draggableParentId.includes("leftTiles")) {
-                        leftLetters = leftLetters.split('').filter(function (c) { return c !== tileCharacter_1; }).join('');
+                        leftLetters = leftLetters
+                            .split("")
+                            .filter(function (c) { return c !== tileCharacter_1; })
+                            .join("");
                     }
-                    else if (draggableParentId && draggableParentId.includes("rightTiles")) {
-                        rightLetters = rightLetters.split('').filter(function (c) { return c !== tileCharacter_1; }).join('');
+                    else if (draggableParentId &&
+                        draggableParentId.includes("rightTiles")) {
+                        rightLetters = rightLetters
+                            .split("")
+                            .filter(function (c) { return c !== tileCharacter_1; })
+                            .join("");
                     }
                     // Existing logic for handling a successful drop
                     var onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
@@ -59,6 +70,7 @@ function createBoard(boardElement, rows, cols, board) {
                         cell.innerText = "";
                     }
                     console.log(gameBoard);
+                    console.log(library);
                     console.log("after");
                     console.log("spellchecking", (0, spellChecker_1.checkWordsOnBoard)(gameBoard, library));
                     cell.appendChild(draggable);
@@ -218,5 +230,10 @@ if (submitButton) {
                 (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
             }
         }
+    });
+}
+if (passButton) {
+    passButton.addEventListener("click", function () {
+        turn++;
     });
 }

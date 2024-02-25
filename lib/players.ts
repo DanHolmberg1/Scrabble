@@ -8,13 +8,13 @@ export type Player = {
   currentWords: Array<cell<number, string>>;
 };
 
-let player1: Player = {
+export let player1: Player = {
   currentScore: 0,
   user: "",
   currentWords: [],
 };
 
-let player2: Player = {
+export let player2: Player = {
   currentScore: 0,
   user: "",
   currentWords: [],
