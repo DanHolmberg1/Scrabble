@@ -4,7 +4,11 @@ var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
 var gameBoard = [];
+var turn = 0;
 var library = [];
+var leftLetters = "";
+var rightLetters = "";
+var letterQueue = (0, randomLetters_1.generateRandomLetters)();
 //Gets the words from our wordlist.
 fetch('lib/Collins Scrabble Words (2019).txt')
     .then(function (response) { return response.text(); })
@@ -165,9 +169,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (boardElement) {
         createBoard(boardElement, 15, 15, gameBoard); // Your existing board creation logic
     }
-    var letterQueue = (0, randomLetters_1.generateRandomLetters)();
-    var leftLetters = "";
-    var rightLetters = "";
     for (var i = 0; i < 7; i++) {
         leftLetters += q.head(letterQueue);
         q.dequeue(letterQueue);
@@ -179,3 +180,39 @@ document.addEventListener("DOMContentLoaded", function () {
     // Make sure to call this after creating the tiles
     makeTilesDraggable();
 });
+var submitButton = document.getElementById("submitButton");
+if (submitButton) {
+    submitButton.addEventListener("click", function () {
+        turn++;
+        var leftTiles = document.getElementById("leftTiles");
+        var rightTiles = document.getElementById("rightTiles");
+        if (turn % 2 === 0) {
+            if (rightTiles) {
+                rightTiles.style.display = "none";
+            }
+            if (leftTiles) {
+                leftTiles.style.display = "block"; // or any other display property if you initially set it to something other than 'block'
+            }
+            if (leftLetters.length < 7) {
+                while (leftLetters.length < 7) {
+                    leftLetters += q.head(letterQueue);
+                    q.dequeue(letterQueue);
+                }
+            }
+        }
+        else {
+            if (leftTiles) {
+                leftTiles.style.display = "none";
+            }
+            if (rightTiles) {
+                rightTiles.style.display = "block"; // or any other display property if you initially set it to something other than 'block'
+            }
+            if (rightLetters.length < 7) {
+                while (rightLetters.length < 7) {
+                    rightLetters += q.head(letterQueue);
+                    q.dequeue(letterQueue);
+                }
+            }
+        }
+    });
+}
