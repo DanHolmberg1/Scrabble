@@ -42,8 +42,6 @@ export function setUserName(player: PlayerNumber, userName: string): void {
 export function resetCurrentWord(): void {
   player1.currentWords = [];
   player2.currentWords = [];
-  player1.currentWords = [];
-  player2.currentWords = [];
 }
 
 export function addToCurrentWord(

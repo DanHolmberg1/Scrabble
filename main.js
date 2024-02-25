@@ -5,9 +5,12 @@ var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
 var endTurn_1 = require("./endTurn");
+var pointCounter_1 = require("./lib/pointCounter");
+var players_1 = require("./lib/players");
 var submitButton = document.getElementById("submitButton");
 var passButton = document.getElementById("pass");
 var gameBoard = [];
+var roundScore = 0;
 var turn = 0;
 var library = [];
 var leftLetters = "";
@@ -69,10 +72,24 @@ function createBoard(boardElement, rows, cols, board) {
                     if (gameBoardObjNow.special !== 0) {
                         cell.innerText = "";
                     }
-                    console.log(gameBoard);
-                    console.log(library);
-                    console.log("after");
-                    console.log("spellchecking", (0, spellChecker_1.checkWordsOnBoard)(gameBoard, library));
+                    if (turn % 2 === 0) {
+                        (0, players_1.addToCurrentWord)(1, gameBoardObjNow);
+                        roundScore = (0, pointCounter_1.getPoints)(gameBoard, players_1.player1);
+                        var player1_score = document.getElementById("player1Score");
+                        if (player1_score)
+                            player1_score.innerText = "Score: ".concat((0, players_1.getPlayerScore)(1) + roundScore);
+                    }
+                    else {
+                        (0, players_1.addToCurrentWord)(2, gameBoardObjNow);
+                        roundScore = (0, pointCounter_1.getPoints)(gameBoard, players_1.player2);
+                        var player2_score = document.getElementById("player2Score");
+                        if (player2_score)
+                            player2_score.innerText = "Score: ".concat((0, players_1.getPlayerScore)(2) + roundScore);
+                    }
+                    console.log(players_1.player1.currentWords);
+                    ///console.log(gameBoard);
+                    //console.log("after");
+                    //console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
                     cell.appendChild(draggable);
                     cell.classList.remove("over"); // Cleanup visual cue.
                 }
@@ -155,6 +172,14 @@ function makeTilesDraggable() {
                     var onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
                     var gameBoardObjNow = gameBoard[onRow][onColl];
                     //////////////////A bunch of garbage code
+                    console.log("before", gameBoardObjNow);
+                    if (turn % 2 === 0) {
+                        (0, players_1.removeFromCurrentWord)(1, gameBoardObjNow);
+                    }
+                    else {
+                        (0, players_1.removeFromCurrentWord)(2, gameBoardObjNow);
+                    }
+                    console.log("after", gameBoardObjNow);
                     gameBoardObjNow.char = "";
                     gameBoardObjNow.special;
                     //console.log(gameBoard);
@@ -204,6 +229,13 @@ if (submitButton) {
             var leftTiles = document.getElementById("leftTiles");
             var rightTiles = document.getElementById("rightTiles");
             if (turn % 2 === 0) {
+                //Add score to player2
+                (0, players_1.addPlayerScore)(2, roundScore);
+                var player2_score = document.getElementById("player2Score");
+                if (player2_score)
+                    player2_score.innerText = "Score: ".concat((0, players_1.getPlayerScore)(2));
+                //remove current words from player1
+                (0, players_1.resetCurrentWord)();
                 // Hide right tiles, show left tiles
                 if (rightTiles)
                     rightTiles.style.display = "none";
@@ -217,6 +249,13 @@ if (submitButton) {
                 (0, endTurn_1.refreshTiles)("leftTiles", leftLetters);
             }
             else {
+                //Add score to player1
+                (0, players_1.addPlayerScore)(1, roundScore);
+                var player1_score = document.getElementById("player1Score");
+                if (player1_score)
+                    player1_score.innerText = "Score: ".concat((0, players_1.getPlayerScore)(1));
+                //remove current words from player1
+                (0, players_1.resetCurrentWord)();
                 // Hide left tiles, show right tiles
                 if (leftTiles)
                     leftTiles.style.display = "none";

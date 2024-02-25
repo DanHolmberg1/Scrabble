@@ -1489,7 +1489,7 @@ export function getPoints(
       points = points * 3;
     }
 
-    console.log("were on this cell: ", startCell);
+    //console.log("were on this cell: ", startCell);
 
     let existsInMemo = memoizedCells.some(
       (item) =>
@@ -1498,7 +1498,7 @@ export function getPoints(
         item.special === startCell.special &&
         item.char === startCell.char
     );
-    console.log("in(true) or not(false) in memory", existsInMemo);
+    //console.log("in(true) or not(false) in memory", existsInMemo);
 
     if (existsInMemo) {
       points = 0;
@@ -1508,9 +1508,9 @@ export function getPoints(
 
     const row = startCell.row;
     const col = startCell.col;
-    console.log("memoized cells: ", memoizedCells);
+    //console.log("memoized cells: ", memoizedCells);
 
-    console.log("pointsgivven: ", points);
+    //console.log("pointsgivven: ", points);
 
     if (startCell.char === "") {
       return 0;
@@ -1532,7 +1532,7 @@ export function getPoints(
 
   let result: number = 0;
   player.currentWords.sort((a, b) => b.special - a.special);
-  console.log(player.currentWords);
+  //console.log(player.currentWords);
   for (let i = 0; i < player.currentWords.length; i++) {
     const currentPlacedCell = player.currentWords[i];
 
@@ -1545,5 +1545,3 @@ export function getPoints(
 
   return result;
 }
-
-console.log(getPoints(testBoard, testPlayer));
