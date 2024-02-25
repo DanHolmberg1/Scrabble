@@ -8,6 +8,9 @@ export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
 const submitButton = document.getElementById("submitButton");
 
+const passButton = document.getElementById("pass");
+
+
 let gameBoard: Array<Array<cell<number, string>>> = [];
 
 let turn: number = 0;
@@ -250,4 +253,10 @@ if (submitButton) {
     }
   });
   
+}
+
+if (passButton){
+  passButton.addEventListener("click", () => {
+    turn++;
+  });
 }
