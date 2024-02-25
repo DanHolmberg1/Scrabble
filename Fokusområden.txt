@@ -1,12 +1,8 @@
-Dan:
-1. Logik bakom spellchecker
+Major:
+Göra så att första ordet ska starta på starten.
 
 
-David:
-1. HTML, få in det sista div samt att göra en placeholder för score och knappar för att lägga sitt ord, passa, blanda tillbaka vissa bokstäver.
-
-
-Anton:
-1. Logik bakom score counter och att spelarena får rundor.
-
-
+Minor:
+CSS - Brädet skiftar
+    - Tile namn försvinner efter man lägger ord och sedan flyttar, göra bakgrundsbilder
+    
