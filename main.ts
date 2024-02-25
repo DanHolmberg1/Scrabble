@@ -1,9 +1,12 @@
 import * as q from "./lib/queue_array";
 import { generateRandomLetters } from "./lib/randomLetters";
 import { checkWordsOnBoard } from "./lib/spellChecker";
+import { isTilePlaced, refreshTiles } from "./endTurn";
 
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
+
+const submitButton = document.getElementById("submitButton");
 
 let gameBoard: Array<Array<cell<number, string>>> = [];
 
@@ -16,6 +19,7 @@ let leftLetters: string = "";
 let rightLetters: string = "";
 
 let letterQueue: q.Queue<string> = generateRandomLetters();
+
 
 //Gets the words from our wordlist.
 fetch('lib/Collins Scrabble Words (2019).txt')
@@ -48,34 +52,34 @@ function createBoard(
       });
 
       cell.addEventListener("drop", (event) => {
-        ////This checks when tile is dropped on cell
         event.preventDefault();
         if (!event.dataTransfer) {
           throw new Error("event.dataTransfer does not exist");
         }
         const draggableId = event.dataTransfer.getData("text");
-        //console.log(draggableId);
         const draggable = document.getElementById(draggableId);
-        //console.log(draggable);
-        //console.log(event);
         const dropTargetId: string | null = (event.target as HTMLElement)?.id;
-
-        const onRow = parseInt(
-          dropTargetId.substring(0, dropTargetId.indexOf(" "))
-        );
-        const onColl = parseInt(
-          dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1)
-        );
-        //console.log(onRow);
-        //console.log(onColl);
-        const gameBoardObjNow = gameBoard[onRow][onColl];
-        //console.log(gameBoardObjNow);
+      
         if (draggable && cell && cell.childElementCount == 0) {
-          gameBoardObjNow.char = draggable.innerText;
+          const tileCharacter = draggable.innerText;
+          const draggableParentId = draggable.parentElement?.id;
+      
+          // Identify source container and remove character from the corresponding array
+          if (draggableParentId && draggableParentId.includes("leftTiles")) {
+            leftLetters = leftLetters.split('').filter(c => c !== tileCharacter).join('');
+          } else if (draggableParentId && draggableParentId.includes("rightTiles")) {
+            rightLetters = rightLetters.split('').filter(c => c !== tileCharacter).join('');
+          }
+      
+          // Existing logic for handling a successful drop
+          const onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
+          const onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
+          const gameBoardObjNow = gameBoard[onRow][onColl];
+          gameBoardObjNow.char = tileCharacter;
           if (gameBoardObjNow.special !== 0) {
             cell.innerText = "";
           }
-
+      
           console.log(gameBoard);
           console.log("after");
           console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
@@ -83,10 +87,7 @@ function createBoard(
           cell.classList.remove("over"); // Cleanup visual cue.
         }
       });
-
-      cell.addEventListener("dragleave", () => {
-        cell.classList.remove("over"); // Cleanup visual cue.
-      });
+      
 
       if (speicalSquares[row][col] === 0) {
         board[row][col].special = 0;
@@ -142,7 +143,7 @@ const speicalSquares: number[][] = [
   [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
 ];
 
-function makeTilesDraggable(): void {
+export function makeTilesDraggable(): void {
   // Query all your draggable tiles by a common class or other selector.
   const tiles = document.querySelectorAll(".tile"); // Assuming '.tile' class for your tiles.
   tiles.forEach((tile) => {
@@ -213,43 +214,40 @@ document.addEventListener("DOMContentLoaded", () => {
   makeTilesDraggable();
 });
 
-
-
-const submitButton = document.getElementById("submitButton");
-
 if (submitButton) {
   submitButton.addEventListener("click", () => {
-    turn++;
-
-    const leftTiles = document.getElementById("leftTiles");
-    const rightTiles = document.getElementById("rightTiles");
-
-    if (turn % 2 === 0) {
-      if (rightTiles) {
-        rightTiles.style.display = "none";
-      }
-      if (leftTiles) {
-        leftTiles.style.display = "block"; // or any other display property if you initially set it to something other than 'block'
-      }
-        if(leftLetters.length < 7){
-        while(leftLetters.length < 7){
+    if(checkWordsOnBoard(gameBoard, library)) { 
+      turn++;
+  
+      // Logic to display the correct set of tiles and replenish letters
+      const leftTiles = document.getElementById("leftTiles");
+      const rightTiles = document.getElementById("rightTiles");
+  
+      if (turn % 2 === 0) {
+        // Hide right tiles, show left tiles
+        if (rightTiles) rightTiles.style.display = "none";
+        if (leftTiles) leftTiles.style.display = "block";
+        
+        // Replenish leftLetters if needed and refresh UI
+        while(leftLetters.length < 7 && !q.is_empty(letterQueue)) {
           leftLetters += q.head(letterQueue);
           q.dequeue(letterQueue);
         }
-      }
-    } else {
-      if (leftTiles) {
-        leftTiles.style.display = "none";
-      }
-      if (rightTiles) {
-        rightTiles.style.display = "block"; // or any other display property if you initially set it to something other than 'block'
-      }
-      if(rightLetters.length < 7){
-        while(rightLetters.length < 7){
+        refreshTiles("leftTiles", leftLetters);
+  
+      } else {
+        // Hide left tiles, show right tiles
+        if (leftTiles) leftTiles.style.display = "none";
+        if (rightTiles) rightTiles.style.display = "block";
+        
+        // Replenish rightLetters if needed and refresh UI
+        while(rightLetters.length < 7 && !q.is_empty(letterQueue)) {
           rightLetters += q.head(letterQueue);
           q.dequeue(letterQueue);
         }
+        refreshTiles("rightTiles", rightLetters);
       }
     }
   });
+  
 }

@@ -29,26 +29,29 @@ function createBoard(boardElement, rows, cols, board) {
                 cell.classList.add("over"); // Optional: Visual cue.
             });
             cell.addEventListener("drop", function (event) {
-                var _a;
-                ////This checks when tile is dropped on cell
+                var _a, _b;
                 event.preventDefault();
                 if (!event.dataTransfer) {
                     throw new Error("event.dataTransfer does not exist");
                 }
                 var draggableId = event.dataTransfer.getData("text");
-                //console.log(draggableId);
                 var draggable = document.getElementById(draggableId);
-                //console.log(draggable);
-                //console.log(event);
                 var dropTargetId = (_a = event.target) === null || _a === void 0 ? void 0 : _a.id;
-                var onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
-                var onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
-                //console.log(onRow);
-                //console.log(onColl);
-                var gameBoardObjNow = gameBoard[onRow][onColl];
-                //console.log(gameBoardObjNow);
                 if (draggable && cell && cell.childElementCount == 0) {
-                    gameBoardObjNow.char = draggable.innerText;
+                    var tileCharacter_1 = draggable.innerText;
+                    var draggableParentId = (_b = draggable.parentElement) === null || _b === void 0 ? void 0 : _b.id;
+                    // Identify source container and remove character from the corresponding array
+                    if (draggableParentId && draggableParentId.includes("leftTiles")) {
+                        leftLetters = leftLetters.split('').filter(function (c) { return c !== tileCharacter_1; }).join('');
+                    }
+                    else if (draggableParentId && draggableParentId.includes("rightTiles")) {
+                        rightLetters = rightLetters.split('').filter(function (c) { return c !== tileCharacter_1; }).join('');
+                    }
+                    // Existing logic for handling a successful drop
+                    var onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
+                    var onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
+                    var gameBoardObjNow = gameBoard[onRow][onColl];
+                    gameBoardObjNow.char = tileCharacter_1;
                     if (gameBoardObjNow.special !== 0) {
                         cell.innerText = "";
                     }
@@ -58,9 +61,6 @@ function createBoard(boardElement, rows, cols, board) {
                     cell.appendChild(draggable);
                     cell.classList.remove("over"); // Cleanup visual cue.
                 }
-            });
-            cell.addEventListener("dragleave", function () {
-                cell.classList.remove("over"); // Cleanup visual cue.
             });
             if (speicalSquares[row][col] === 0) {
                 board[row][col].special = 0;
@@ -180,38 +180,53 @@ document.addEventListener("DOMContentLoaded", function () {
     // Make sure to call this after creating the tiles
     makeTilesDraggable();
 });
+function refreshTiles(containerId, letters) {
+    var container = document.getElementById(containerId);
+    if (!container)
+        return;
+    container.innerHTML = ''; // Clear existing tiles
+    for (var i = 0; i < letters.length; i++) { // Re-create tiles
+        var tile = document.createElement("div");
+        tile.classList.add("tile");
+        tile.id = "tile-".concat(containerId, "-").concat(i);
+        tile.textContent = letters[i];
+        container.appendChild(tile);
+    }
+    makeTilesDraggable(); // Make new tiles draggable
+}
 var submitButton = document.getElementById("submitButton");
 if (submitButton) {
     submitButton.addEventListener("click", function () {
-        turn++;
-        var leftTiles = document.getElementById("leftTiles");
-        var rightTiles = document.getElementById("rightTiles");
-        if (turn % 2 === 0) {
-            if (rightTiles) {
-                rightTiles.style.display = "none";
-            }
-            if (leftTiles) {
-                leftTiles.style.display = "block"; // or any other display property if you initially set it to something other than 'block'
-            }
-            if (leftLetters.length < 7) {
-                while (leftLetters.length < 7) {
+        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library)) {
+            turn++;
+            // Logic to display the correct set of tiles and replenish letters
+            var leftTiles = document.getElementById("leftTiles");
+            var rightTiles = document.getElementById("rightTiles");
+            if (turn % 2 === 0) {
+                // Hide right tiles, show left tiles
+                if (rightTiles)
+                    rightTiles.style.display = "none";
+                if (leftTiles)
+                    leftTiles.style.display = "block";
+                // Replenish leftLetters if needed and refresh UI
+                while (leftLetters.length < 7 && !q.is_empty(letterQueue)) {
                     leftLetters += q.head(letterQueue);
                     q.dequeue(letterQueue);
                 }
+                refreshTiles("leftTiles", leftLetters);
             }
-        }
-        else {
-            if (leftTiles) {
-                leftTiles.style.display = "none";
-            }
-            if (rightTiles) {
-                rightTiles.style.display = "block"; // or any other display property if you initially set it to something other than 'block'
-            }
-            if (rightLetters.length < 7) {
-                while (rightLetters.length < 7) {
+            else {
+                // Hide left tiles, show right tiles
+                if (leftTiles)
+                    leftTiles.style.display = "none";
+                if (rightTiles)
+                    rightTiles.style.display = "block";
+                // Replenish rightLetters if needed and refresh UI
+                while (rightLetters.length < 7 && !q.is_empty(letterQueue)) {
                     rightLetters += q.head(letterQueue);
                     q.dequeue(letterQueue);
                 }
+                refreshTiles("rightTiles", rightLetters);
             }
         }
     });
