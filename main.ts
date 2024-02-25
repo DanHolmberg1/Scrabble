@@ -6,7 +6,17 @@ export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
 
 let gameBoard: Array<Array<cell<number, string>>> = [];
+
+let turn: number = 0;
+
 let library: string[] = [];
+
+let leftLetters: string = "";
+
+let rightLetters: string = "";
+
+let letterQueue: q.Queue<string> = generateRandomLetters();
+
 //Gets the words from our wordlist.
 fetch('lib/Collins Scrabble Words (2019).txt')
     .then(response => response.text())
@@ -190,10 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
     createBoard(boardElement, 15, 15, gameBoard); // Your existing board creation logic
   }
 
-  let letterQueue: q.Queue<string> = generateRandomLetters();
-  let leftLetters: string = "";
-  let rightLetters: string = "";
-
   for (let i = 0; i < 7; i++) {
     leftLetters += q.head(letterQueue);
     q.dequeue(letterQueue);
@@ -206,3 +212,44 @@ document.addEventListener("DOMContentLoaded", () => {
   // Make sure to call this after creating the tiles
   makeTilesDraggable();
 });
+
+
+
+const submitButton = document.getElementById("submitButton");
+
+if (submitButton) {
+  submitButton.addEventListener("click", () => {
+    turn++;
+
+    const leftTiles = document.getElementById("leftTiles");
+    const rightTiles = document.getElementById("rightTiles");
+
+    if (turn % 2 === 0) {
+      if (rightTiles) {
+        rightTiles.style.display = "none";
+      }
+      if (leftTiles) {
+        leftTiles.style.display = "block"; // or any other display property if you initially set it to something other than 'block'
+      }
+        if(leftLetters.length < 7){
+        while(leftLetters.length < 7){
+          leftLetters += q.head(letterQueue);
+          q.dequeue(letterQueue);
+        }
+      }
+    } else {
+      if (leftTiles) {
+        leftTiles.style.display = "none";
+      }
+      if (rightTiles) {
+        rightTiles.style.display = "block"; // or any other display property if you initially set it to something other than 'block'
+      }
+      if(rightLetters.length < 7){
+        while(rightLetters.length < 7){
+          rightLetters += q.head(letterQueue);
+          q.dequeue(letterQueue);
+        }
+      }
+    }
+  });
+}
