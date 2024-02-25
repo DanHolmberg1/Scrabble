@@ -1,8 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeTilesDraggable = void 0;
 var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
+var endTurn_1 = require("./endTurn");
+var submitButton = document.getElementById("submitButton");
 var gameBoard = [];
 var turn = 0;
 var library = [];
@@ -148,6 +151,7 @@ function makeTilesDraggable() {
         });
     });
 }
+exports.makeTilesDraggable = makeTilesDraggable;
 function createTilesForLetters(containerId, letters) {
     var container = document.getElementById(containerId);
     // Check if the container exists before proceeding.
@@ -180,21 +184,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Make sure to call this after creating the tiles
     makeTilesDraggable();
 });
-function refreshTiles(containerId, letters) {
-    var container = document.getElementById(containerId);
-    if (!container)
-        return;
-    container.innerHTML = ''; // Clear existing tiles
-    for (var i = 0; i < letters.length; i++) { // Re-create tiles
-        var tile = document.createElement("div");
-        tile.classList.add("tile");
-        tile.id = "tile-".concat(containerId, "-").concat(i);
-        tile.textContent = letters[i];
-        container.appendChild(tile);
-    }
-    makeTilesDraggable(); // Make new tiles draggable
-}
-var submitButton = document.getElementById("submitButton");
 if (submitButton) {
     submitButton.addEventListener("click", function () {
         if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library)) {
@@ -213,7 +202,7 @@ if (submitButton) {
                     leftLetters += q.head(letterQueue);
                     q.dequeue(letterQueue);
                 }
-                refreshTiles("leftTiles", leftLetters);
+                (0, endTurn_1.refreshTiles)("leftTiles", leftLetters);
             }
             else {
                 // Hide left tiles, show right tiles
@@ -226,7 +215,7 @@ if (submitButton) {
                     rightLetters += q.head(letterQueue);
                     q.dequeue(letterQueue);
                 }
-                refreshTiles("rightTiles", rightLetters);
+                (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
             }
         }
     });
