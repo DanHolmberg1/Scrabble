@@ -1,11 +1,6 @@
 import { cell } from "../main";
 
 type PlayerNumber = 1 | 2;
-type User = {
-  userName: string;
-  password: string;
-  highScore: number;
-};
 
 export type Player = {
   currentScore: number;
