@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <div class="login-card">
+      <h2>Login</h2>
+      <h3>Enter your credentials user1</h3>
+      <form id="login-form-p1"class="login-form">
+        <input type="text" placeholder="Username" />
+        <input type="text" placeholder="Password" />
+        <button type="submit">LOGIN</button>
+      </form>
+      <h3>Enter your credentials user2</h3>
+      <form id="login-form-p2" class="login-form">
+        <input type="text" placeholder="Username" />
+        <input type="text" placeholder="Password" />
+        <button type="submit">LOGIN</button>
+      </form>
+      <h4>Create new user</h3>
+      <form id="create_user" class="login-form">
+        <input type="text" placeholder="Username" />
+        <input type="text" placeholder="Password" />
+        <input type="text" placeholder="Repeat password" />
+        <button type="submit">Create New Account</button>
+      </form>
+      <script defer src="login.ts"></script>
+    </div>
+  </body>
 </html>

@@ -101,7 +101,7 @@ function createBoard(boardElement, rows, cols, board) {
                         if (player2_score)
                             player2_score.innerText = "Score: ".concat((0, players_1.getPlayerScore)(2) + roundScore);
                     }
-                    console.log(players_1.player1.currentWords);
+                    //console.log(player1.currentWords);
                     ///console.log(gameBoard);
                     //console.log("after");
                     //console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
@@ -192,14 +192,14 @@ function makeTilesDraggable() {
                     var onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
                     var gameBoardObjNow = gameBoard[onRow][onColl];
                     //////////////////A bunch of garbage code
-                    console.log("before", gameBoardObjNow);
+                    //console.log("before", gameBoardObjNow);
                     if (turn % 2 === 0) {
                         (0, players_1.removeFromCurrentWord)(1, gameBoardObjNow);
                     }
                     else {
                         (0, players_1.removeFromCurrentWord)(2, gameBoardObjNow);
                     }
-                    console.log("after", gameBoardObjNow);
+                    //console.log("after", gameBoardObjNow);
                     gameBoardObjNow.char = "";
                     gameBoardObjNow.special;
                     //console.log(gameBoard);
@@ -257,11 +257,19 @@ document.addEventListener("DOMContentLoaded", function () {
 if (submitButton) {
     submitButton.addEventListener("click", function () {
         if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library)) {
+            //make laid tiles not movable
+            var tiles = document.querySelectorAll(".tile");
+            tiles.forEach(function (tile) {
+                tile.className = "notMovableEnyMore";
+                tile.setAttribute("draggable", "false");
+            });
+            //Pass on the turn
             turn++;
             // Logic to display the correct set of tiles and replenish letters
             var leftTiles = document.getElementById("leftTiles");
             var rightTiles = document.getElementById("rightTiles");
             if (turn % 2 === 0) {
+                //Odd urns are player 2 even are player 1
                 //Add score to player2
                 (0, players_1.addPlayerScore)(2, roundScore);
                 var player2_score = document.getElementById("player2Score");

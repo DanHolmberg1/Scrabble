@@ -1,4 +1,5 @@
 import { Player } from "./players";
+import { getPoints } from "./pointCounter";
 
 const testBoard = [
   [

@@ -146,7 +146,7 @@ function createBoard(
               }`;
           }
 
-          console.log(player1.currentWords);
+          //console.log(player1.currentWords);
           ///console.log(gameBoard);
           //console.log("after");
           //console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
@@ -217,6 +217,7 @@ const speicalSquares: number[][] = [
 export function makeTilesDraggable(): void {
   // Query all your draggable tiles by a common class or other selector.
   const tiles = document.querySelectorAll(".tile"); // Assuming '.tile' class for your tiles.
+
   tiles.forEach((tile) => {
     tile.setAttribute("draggable", "true");
 
@@ -238,13 +239,13 @@ export function makeTilesDraggable(): void {
           );
           const gameBoardObjNow = gameBoard[onRow][onColl];
           //////////////////A bunch of garbage code
-          console.log("before", gameBoardObjNow);
+          //console.log("before", gameBoardObjNow);
           if (turn % 2 === 0) {
             removeFromCurrentWord(1, gameBoardObjNow);
           } else {
             removeFromCurrentWord(2, gameBoardObjNow);
           }
-          console.log("after", gameBoardObjNow);
+          //console.log("after", gameBoardObjNow);
           gameBoardObjNow.char = "";
           gameBoardObjNow.special;
 
@@ -308,12 +309,20 @@ document.addEventListener("DOMContentLoaded", () => {
 if (submitButton) {
   submitButton.addEventListener("click", () => {
     if (checkWordsOnBoard(gameBoard, library)) {
+      //make laid tiles not movable
+      const tiles = document.querySelectorAll(".tile");
+      tiles.forEach((tile) => {
+        tile.className = "notMovableEnyMore";
+        tile.setAttribute("draggable", "false");
+      });
+      //Pass on the turn
       turn++;
       // Logic to display the correct set of tiles and replenish letters
       const leftTiles = document.getElementById("leftTiles");
       const rightTiles = document.getElementById("rightTiles");
 
       if (turn % 2 === 0) {
+        //Odd urns are player 2 even are player 1
         //Add score to player2
         addPlayerScore(2, roundScore);
         const player2_score = document.getElementById("player2Score");
