@@ -1,12 +1,15 @@
 Major:
+Göra så man kan ta bort bokstäver från brädet.
 Göra så att första ordet ska starta på starten.
 Göra så att man inte kan flytta redan lagda bokstäver efter sin turn(man kan just nu flytta på motståndarens rutor)
+Innloggning 
 
 Minor:
 CSS - Brädet skiftar
     - Knappar hamnar över brädet om man t.ex zoomar in eller ut
     kan också bero på upplösningen på datorn. När jag har på
     normal zoom hamnar den ändå över brädet.
+
 Göra tester: 
 pointCounter
 randomLetters
