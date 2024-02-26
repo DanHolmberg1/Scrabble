@@ -32,21 +32,36 @@ body {
 /* Add styles for special tiles */
 .cell[data-special="starting-square"] {
   background-color: gray;
+  background-position: center;
+  background-image: url("lib/Sgray.png");
+  background-size: cover;
 }
 
 .cell[data-special="double-word"] {
   background-color: #ffcc00;
+  background-position: center;
+  background-image: url("lib/DWyellow.png");
+  background-size: cover;
 }
 .cell[data-special="double-letter"] {
   background-color: green;
+  background-position: center;
+  background-image: url("lib/DLgreen.png");
+  background-size: cover;
 }
 
 .cell[data-special="triple-letter"] {
   background-color: blue;
+  background-position: center;
+  background-image: url("lib/TLblue.png");
+  background-size: cover;
 }
 
 .cell[data-special="triple-word"] {
   background-color: red;
+  background-position: center;
+  background-image: url("lib/TWred.png");
+  background-size: cover;
 }
 
 .tiles-containerleft {
@@ -75,7 +90,6 @@ body {
   margin: 2px;
   user-select: none; /* Prevents the text selection cursor */
 }
-
 
 .container {
   height: 50px;

@@ -20,7 +20,7 @@ export let outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
 
 const submitButton = document.getElementById("submitButton");
 
-const changeLettersButton = document.getElementById("newLetters")
+const changeLettersButton = document.getElementById("newLetters");
 
 const passButton = document.getElementById("pass");
 
@@ -50,15 +50,13 @@ fetch("lib/Collins Scrabble Words (2019).txt")
   })
   .catch((error) => console.error("Error reading the file:", error));
 
-
-
 /**
  * Initializes and displays the game board on the specified HTML element, creating cells based on the given rows and columns. Each cell is represented by a `cell` object and can have special attributes like double letter score, triple letter score, etc., which are visually indicated on the board.
- * 
+ *
  * @example
  * const boardElement = document.getElementById("board");
  * createBoard(boardElement, 15, 15, gameBoard); // Initializes a 15x15 game board.
- * 
+ *
  * @param {HTMLElement} boardElement - The HTML element where the board will be displayed.
  * @param {number} rows - The number of rows in the game board.
  * @param {number} cols - The number of columns in the game board.
@@ -163,27 +161,22 @@ function createBoard(
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 1) {
         board[row][col].special = 1;
-        cell.textContent = "DL";
         cell.setAttribute("data-special", "double-letter");
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 2) {
         board[row][col].special = 2;
-        cell.textContent = "TL";
         cell.setAttribute("data-special", "triple-letter");
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 3) {
         board[row][col].special = 3;
-        cell.textContent = "DW";
         cell.setAttribute("data-special", "double-word");
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 4) {
         board[row][col].special = 4;
-        cell.textContent = "TW";
         cell.setAttribute("data-special", "triple-word");
         cell.setAttribute("id", id);
       } else if (speicalSquares[row][col] === 5) {
         board[row][col].special = 5;
-        cell.textContent = "S";
         cell.setAttribute("data-special", "starting-square");
         cell.setAttribute("id", id);
       }
@@ -211,15 +204,14 @@ const speicalSquares: number[][] = [
   [2, 0, 0, 0, 4, 0, 0, 1, 0, 0, 4, 0, 0, 0, 2],
 ];
 
-
 /**
- * Makes each tile within the game draggable. It sets up drag event listeners on tiles so that they 
- * can be moved to different parts of the game board. This function should be called after the tiles 
+ * Makes each tile within the game draggable. It sets up drag event listeners on tiles so that they
+ * can be moved to different parts of the game board. This function should be called after the tiles
  * are created and rendered on the page.
- *  
+ *
  * @example
  * makeTilesDraggable(); // Initializes drag functionality for all tiles with the '.tile' class.
- * 
+ *
  * @returns {void}
  */
 export function makeTilesDraggable(): void {
@@ -263,16 +255,14 @@ export function makeTilesDraggable(): void {
   });
 }
 
-
-
 /**
  * Creates tile elements for each letter in the provided string and appends them to the specified container element.
  *  Each tile is made draggable and is given a unique ID based on its position and the container it belongs to.
- * 
+ *
  * @example
- * createTilesForLetters("leftTiles", "ABCDE"); // Creates draggable tiles for each letter and 
+ * createTilesForLetters("leftTiles", "ABCDE"); // Creates draggable tiles for each letter and
  * appends them to the 'leftTiles' container.
- * 
+ *
  * @param {string} containerId - The ID of the HTML element where the tiles will be appended.
  * @param {string} letters - A string of letters for which tiles will be created.
  * @returns {void}
@@ -294,8 +284,6 @@ function createTilesForLetters(containerId: string, letters: string): void {
     container.appendChild(tile);
   }
 }
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const boardElement = document.getElementById("board");
@@ -367,7 +355,7 @@ if (submitButton) {
 }
 
 if (changeLettersButton) {
-  changeLettersButton.addEventListener('click', () => {
+  changeLettersButton.addEventListener("click", () => {
     if (turn % 2 === 0) {
       while (leftLetters.length !== 0) {
         // Enqueue the last letter of leftLetters into the letterQueue
