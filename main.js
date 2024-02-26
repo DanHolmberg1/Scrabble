@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeTilesDraggable = void 0;
+exports.makeTilesDraggable = exports.outerEdges = void 0;
 var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
 var endTurn_1 = require("./endTurn");
 var pointCounter_1 = require("./lib/pointCounter");
 var players_1 = require("./lib/players");
+exports.outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
 var submitButton = document.getElementById("submitButton");
 var passButton = document.getElementById("pass");
 var gameBoard = [];
@@ -209,6 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var boardElement = document.getElementById("board");
     if (boardElement) {
         createBoard(boardElement, 15, 15, gameBoard); // Your existing board creation logic
+        exports.outerEdges = { maxRow: 14, minRow: 0, maxCol: 14, minCol: 0 };
     }
     for (var i = 0; i < 7; i++) {
         leftLetters += q.head(letterQueue);

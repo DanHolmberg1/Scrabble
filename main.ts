@@ -16,6 +16,8 @@ import {
 
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
+export let outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
+
 const submitButton = document.getElementById("submitButton");
 
 const passButton = document.getElementById("pass");
@@ -255,6 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const boardElement = document.getElementById("board");
   if (boardElement) {
     createBoard(boardElement, 15, 15, gameBoard); // Your existing board creation logic
+    outerEdges = { maxRow: 14, minRow: 0, maxCol: 14, minCol: 0 };
   }
 
   for (let i = 0; i < 7; i++) {
