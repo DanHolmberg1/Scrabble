@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 
-type User = {
+export type User = {
     userName: string;
     password: string;
     highScore: number;
