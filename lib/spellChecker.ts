@@ -1,10 +1,19 @@
 import { type cell } from "../main";
 
-const memo: string[] = [];
 
-const isValidWord = (word: string): boolean => {
-  return memo.includes(word);
-};
+
+
+/**
+ * Performs a binary search on a sorted array of strings to find a target word efficiently. 
+ * This function assumes the dictionary is sorted alphabetically.
+ * 
+ * @example
+ * binarySearch(["apple", "banana", "cherry"], "banana"); // returns true
+ * 
+ * @param {string[]} dictionary - The sorted array of words to search through.
+ * @param {string} target - The word to search for in the dictionary.
+ * @returns {boolean} Returns true if the target word is found in the dictionary, otherwise false.
+ */
 
 function binarySearch(dictionary: string[], target: string): boolean {
   let low = 0;
@@ -26,6 +35,21 @@ function binarySearch(dictionary: string[], target: string): boolean {
 
   return false; // Word not found
 }
+
+
+
+/**
+ * Validates the words formed on the game board against a provided dictionary. It checks both horizontally 
+ * and vertically formed words, ensuring they are valid and do not consist of isolated letters. Additionally, 
+ * this function verifies that there are no "free-floating" letters on the board, enhancing the game's integrity.
+ * 
+ * @example
+ * checkWordsOnBoard(gameBoard, library); // returns true if all words on the board are valid according to the library
+ * 
+ * @param {Array<Array<cell<number, string>>>} gameBoard - The game board represented as a 2D array of cells.
+ * @param {string[]} library - A list of valid words used as a reference to validate the words on the board.
+ * @returns {boolean} Returns true if all words on the board are valid and there are no isolated letters, otherwise false.
+ */
 
 export function checkWordsOnBoard(
   gameBoard: Array<Array<cell<number, string>>>,

@@ -1,5 +1,22 @@
 import * as q from "./queue_array";
 
+
+
+
+
+/**
+ * Generates a queue of random letters reflecting the distribution and frequency of letters as specified in the rules of Scrabble. 
+ * The function creates an array of letters mirroring Scrabble's letter distribution, shuffles this array to randomize the order, 
+ * and then enqueues each letter into a queue. This simulated bag of letters can then be used for game mechanics, 
+ * closely mimicking the experience of drawing letter tiles from a bag in a game of Scrabble.
+ * 
+ * @example
+ * const letterQueue = generateRandomLetters(); // Returns a queue with letters randomized in accordance with Scrabble distribution.
+ * 
+ * @returns {q.Queue<string>} A queue populated with letters distributed and randomized according to Scrabble rules, ready for gameplay.
+ */
+
+
 export function generateRandomLetters(): q.Queue<string> {
   const letters = [
 "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E",
@@ -20,6 +37,19 @@ export function generateRandomLetters(): q.Queue<string> {
   }
   return randomLetters;
 }
+
+
+
+/**
+ * Shuffles the elements of an array in place using the Fisher-Yates shuffle algorithm. 
+ * his algorithm ensures that each permutation of the array elements is equally likely.
+ * 
+ * @example
+ * shuffle(["A", "B", "C", "D"]); // might return ["C", "A", "D", "B"]
+ * 
+ * @param {Array<string>} array - The array of strings to be shuffled.
+ * @returns {Array<string>} Returns the same array with its elements reordered randomly.
+ */
 
 function shuffle(array: Array<string>): Array<string> {
   let currentIndex = array.length,
