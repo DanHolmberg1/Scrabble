@@ -9,6 +9,7 @@ var pointCounter_1 = require("./lib/pointCounter");
 var players_1 = require("./lib/players");
 exports.outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
 var submitButton = document.getElementById("submitButton");
+var changeLettersButton = document.getElementById("newLetters");
 var passButton = document.getElementById("pass");
 var gameBoard = [];
 var roundScore = 0;
@@ -270,6 +271,28 @@ if (submitButton) {
                 }
                 (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
             }
+        }
+    });
+}
+if (changeLettersButton) {
+    changeLettersButton.addEventListener('click', function () {
+        if (turn % 2 === 0) {
+            while (leftLetters.length !== 0) {
+                // Enqueue the last letter of leftLetters into the letterQueue
+                q.enqueue(leftLetters.substring(leftLetters.length - 1), letterQueue);
+                // Remove the last letter from leftLetters
+                leftLetters = leftLetters.substring(0, leftLetters.length - 1);
+            }
+            (0, endTurn_1.refreshTiles)("leftTiles", leftLetters);
+        }
+        else {
+            while (rightLetters.length !== 0) {
+                // Enqueue the last letter of rightLetters into the letterQueue
+                q.enqueue(rightLetters.substring(rightLetters.length - 1), letterQueue);
+                // Remove the last letter from rightLetters
+                rightLetters = rightLetters.substring(0, rightLetters.length - 1);
+            }
+            (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
         }
     });
 }
