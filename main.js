@@ -8,6 +8,7 @@ var endTurn_1 = require("./endTurn");
 var pointCounter_1 = require("./lib/pointCounter");
 var players_1 = require("./lib/players");
 exports.outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
+var isOnStart = false;
 var submitButton = document.getElementById("submitButton");
 var changeLettersButton = document.getElementById("newLetters");
 var passButton = document.getElementById("pass");
@@ -256,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 if (submitButton) {
     submitButton.addEventListener("click", function () {
-        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library)) {
+        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library) && gameBoard[7][7].char !== "") {
             //make laid tiles not movable
             var tiles = document.querySelectorAll(".tile");
             tiles.forEach(function (tile) {

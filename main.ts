@@ -18,6 +18,8 @@ export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
 export let outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
 
+let isOnStart = false;
+
 const submitButton = document.getElementById("submitButton");
 
 const changeLettersButton = document.getElementById("newLetters");
@@ -308,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 if (submitButton) {
   submitButton.addEventListener("click", () => {
-    if (checkWordsOnBoard(gameBoard, library)) {
+    if (checkWordsOnBoard(gameBoard, library) && gameBoard[7][7].char !== "") {
       //make laid tiles not movable
       const tiles = document.querySelectorAll(".tile");
       tiles.forEach((tile) => {
