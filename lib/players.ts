@@ -73,17 +73,52 @@ export function getCurrentWord(
   return player == 1 ? player1.currentWords : player2.currentWords;
 }
 
-function findUser(userName: string): User | undefined{
+function findUser(userName: string): User {
   let i: number = 0;
   let userArray: Array<User> = getUsers()
   while(i < userArray.length){
     if (userArray[i].userName == userName){
       return userArray[i]
+    }else{
+      i++
     }
   }
+  let emptyUser: User = {userName: "", password: "", highScore: 0}
+  return emptyUser;
   
 }
 
 export function updateHighscore(): void {
-  
+  let user1: User = findUser(player1.user)
+  let user2: User = findUser(player2.user)
+  let newUserArray: Array<User> = getUsers()
+  let userIndex: number = 0;
+  let userIndex2: number = 0;
+  while (userIndex < newUserArray.length){
+    if(newUserArray[userIndex].userName == user1.userName){
+      break;
+    }else{
+      userIndex++;
+    }
+  }
+  if (player1.user !== ""){
+    if (player1.currentScore > user1.highScore || user1.userName !== "") {
+      newUserArray[userIndex].highScore = player1.currentScore;
+    }
+  }
+
+  while (userIndex2 < newUserArray.length){
+    if(newUserArray[userIndex2].userName == user2.userName){
+      break;
+    }else{
+      userIndex2++;
+    }
+  }
+  if (player2.user !== ""){
+    if (player2.currentScore > user2.highScore || user2.userName !== "") {
+      newUserArray[userIndex2].highScore = player2.currentScore;
+    }
+  }
+  saveUsers(newUserArray);
 }
+
