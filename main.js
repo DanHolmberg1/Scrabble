@@ -4,7 +4,7 @@ exports.makeTilesDraggable = exports.outerEdges = void 0;
 var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
-var endTurn_1 = require("./endTurn");
+var endTurn_1 = require("./lib/endTurn");
 var pointCounter_1 = require("./lib/pointCounter");
 var players_1 = require("./lib/players");
 exports.outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
@@ -18,6 +18,7 @@ var library = [];
 var leftLetters = "";
 var rightLetters = "";
 var letterQueue = (0, randomLetters_1.generateRandomLetters)();
+var currentTurnPlacedTiles = [];
 //Gets the words from our wordlist.
 fetch("lib/Collins Scrabble Words (2019).txt")
     .then(function (response) { return response.text(); })
@@ -105,6 +106,12 @@ function createBoard(boardElement, rows, cols, board) {
                     ///console.log(gameBoard);
                     //console.log("after");
                     //console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
+                    currentTurnPlacedTiles.push({
+                        row: onRow, // Assuming these are defined in your drop logic
+                        col: onColl,
+                        char: tileCharacter_1, // The character of the tile placed
+                        origin: (draggableParentId === null || draggableParentId === void 0 ? void 0 : draggableParentId.includes("leftTiles")) ? 'left' : 'right', // Determine the origin based on draggableParentId
+                    });
                     cell.appendChild(draggable);
                     cell.classList.remove("over"); // Cleanup visual cue.
                 }
@@ -237,6 +244,52 @@ function createTilesForLetters(containerId, letters) {
         container.appendChild(tile);
     }
 }
+/**
+ * Configures the game board to allow players to take back tiles they've placed during the current turn
+ * by right-clicking (context menu) on the tiles. Each tile placed on the board is tracked, and when a tile is
+ * right-clicked, it checks if the tile was placed in the current turn. If so, the tile is moved back to the
+ * player's hand (either left or right, depending on its origin), and the game board and player's tiles are
+ * updated accordingly.
+ *
+ * This function iterates over each cell in the game board, attaching a 'contextmenu' event listener to prevent
+ * the default context menu from appearing and to execute the take-back logic. The function ensures that only
+ * tiles placed in the current turn can be taken back, maintaining game integrity and preventing manipulation
+ * of tiles placed in previous turns.
+ *
+ * @example
+ * setupTakeBackTile(); // Call this function after the game board is initialized and each time the board or the current turn's tiles are updated.
+ *
+ * Notes/Prerequisites:
+ * - Assumes 'gameBoard' is a 2D array representing the board, where each cell contains tile information.
+ * - Utilizes 'currentTurnPlacedTiles', an array tracking tiles placed during the current turn, including their positions and origins.
+ * - Depends on 'leftLetters' and 'rightLetters' strings to manage the letters in each player's hand.
+ * - Requires the 'refreshTiles' function to visually update the tiles in the players' hands on the UI.
+ * - Uses 'cellElement.innerText' to clear the visual representation of a tile on the board when it is taken back.
+ */
+function setupTakeBackTile() {
+    gameBoard.forEach(function (row, rowIndex) {
+        row.forEach(function (cell, colIndex) {
+            var cellElement = document.getElementById("".concat(rowIndex, " ").concat(colIndex));
+            cellElement === null || cellElement === void 0 ? void 0 : cellElement.addEventListener('contextmenu', function () {
+                var tileIndex = currentTurnPlacedTiles.findIndex(function (t) { return t.row === rowIndex && t.col === colIndex; });
+                if (tileIndex !== -1) {
+                    var tile = currentTurnPlacedTiles[tileIndex];
+                    if (tile.origin === 'left') {
+                        leftLetters += tile.char;
+                        (0, endTurn_1.refreshTiles)('leftTiles', leftLetters);
+                    }
+                    else if (tile.origin === 'right') {
+                        rightLetters += tile.char;
+                        (0, endTurn_1.refreshTiles)('rightTiles', rightLetters);
+                    }
+                    gameBoard[rowIndex][colIndex].char = '';
+                    cellElement.innerText = '';
+                    currentTurnPlacedTiles.splice(tileIndex, 1);
+                }
+            });
+        });
+    });
+}
 document.addEventListener("DOMContentLoaded", function () {
     var boardElement = document.getElementById("board");
     if (boardElement) {
@@ -253,6 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
     createTilesForLetters("rightTiles", rightLetters);
     // Make sure to call this after creating the tiles
     makeTilesDraggable();
+    setupTakeBackTile();
 });
 if (submitButton) {
     submitButton.addEventListener("click", function () {
@@ -308,6 +362,7 @@ if (submitButton) {
                     q.dequeue(letterQueue);
                 }
                 (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
+                currentTurnPlacedTiles = [];
             }
         }
     });
