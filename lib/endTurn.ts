@@ -1,4 +1,4 @@
-import { makeTilesDraggable } from "./main";
+import { makeTilesDraggable } from "../main";
 
 export function isTilePlaced(cellElement: HTMLElement): boolean {
     return cellElement.childElementCount > 0;
