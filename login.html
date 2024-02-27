@@ -3,31 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Login Screen</title>
   </head>
   <body>
-    <div class="login-card">
-      <h2>Login</h2>
-      <h3>Enter your credentials user1</h3>
-      <form id="login-form-p1"class="login-form">
-        <input type="text" placeholder="Username" />
-        <input type="text" placeholder="Password" />
-        <button type="submit">LOGIN</button>
+    <div id="login-container">
+      <h2>Login player1</h2>
+      <form id="login-form-player1">
+        <label for="username">Username:</label>
+        <input type="text" id="username1" placeholder="Username" required />
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" id="password1" placeholder="Password" required />
+        <br />
+        <button type="button" id="loginButton1">Login</button>
       </form>
-      <h3>Enter your credentials user2</h3>
-      <form id="login-form-p2" class="login-form">
-        <input type="text" placeholder="Username" />
-        <input type="text" placeholder="Password" />
-        <button type="submit">LOGIN</button>
+      <h2>Login player2</h2>
+      <form id="login-form-player2">
+        <label for="username">Username:</label>
+        <input type="text" id="username2" placeholder="Username" required />
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" id="password2" placeholder="Password" required />
+        <br />
+        <button type="button" id="loginButton2">Login</button>
       </form>
-      <h4>Create new user</h3>
-      <form id="create_user" class="login-form">
-        <input type="text" placeholder="Username" />
-        <input type="text" placeholder="Password" />
-        <input type="text" placeholder="Repeat password" />
-        <button type="submit">Create New Account</button>
+      <h3>Create new user</h3>
+      <form id="create-user-form">
+        <label for="username">Username:</label>
+        <input type="text" id="newUsername" placeholder="Username" required />
+        <br />
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="passwordForNewUser"
+          placeholder="Password"
+          required
+        />
+        <br />
+        <label for="password">retype Password:</label>
+        <input
+          type="password"
+          id="retypePassword"
+          placeholder="Password"
+          required
+        />
+        <br />
+        <button type="button" id="createUser">Create</button>
       </form>
-      <script defer src="login.ts"></script>
     </div>
+
+    <script src="login.js"></script>
   </body>
 </html>

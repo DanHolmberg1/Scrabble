@@ -1,24 +1,29 @@
-function handleLogin(formId: string) {
-  const form = document.getElementById(formId) as HTMLFormElement;
+function validateLogin() {
+  ///Exempel funktion
+  const usernameInput = document.getElementById(
+    "username1"
+  ) as HTMLInputElement;
+  const passwordInput = document.getElementById(
+    "password1"
+  ) as HTMLInputElement;
+  if (usernameInput && passwordInput) {
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+    console.log(username);
+    console.log(password);
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const usernameInput = form.querySelector(
-      'input[type="text"][placeholder="Username"]'
-    ) as HTMLInputElement;
-    const passwordInput = form.querySelector(
-      'input[type="text"][placeholder="Password"]'
-    ) as HTMLInputElement;
-
-    // You can perform further actions like sending the data to a server or checking credentials here
-    console.log(
-      `Username: ${usernameInput.value}, Password: ${passwordInput.value}`
-    );
-  });
+    if (username === "" || password === "") {
+      console.log("Please enter both username and password");
+    } else {
+      console.log("Login successful!");
+    }
+  }
 }
 
-// Handle login for each form
-handleLogin("login-form-p1");
-handleLogin("login-form-p2");
-handleLogin("create_user");
+const loginButton = document.getElementById("loginButton1");
+const loginButton2 = document.getElementById("loginButton2"); //Behöver också en eventlistener
+const createUserButton = document.getElementById("createUser"); //Behöver också en eventlistener
+
+if (loginButton) {
+  loginButton.addEventListener("click", validateLogin);
+}
