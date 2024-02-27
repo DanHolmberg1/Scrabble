@@ -1,1 +1,1 @@
-["{\"userName\":\"Anton\",\"password\":\"ost123\",\"highScore\":700}","{\"userName\":\"David\",\"password\":\"tomater\",\"highScore\":500}"]
+["{\"userName\":\"Anton\",\"password\":\"ost123\",\"highScore\":1000}","{\"userName\":\"David\",\"password\":\"tomater\",\"highScore\":500}"]
