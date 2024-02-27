@@ -370,7 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 if (submitButton) {
   submitButton.addEventListener("click", () => {
-    if (checkWordsOnBoard(gameBoard, library)) {
+    if (checkWordsOnBoard(gameBoard, library) && gameBoard[7][7].char !== "") {
       const tiles = document.querySelectorAll(".tile");
       tiles.forEach((tile) => {
         tile.className = "notMovableEnyMore";
