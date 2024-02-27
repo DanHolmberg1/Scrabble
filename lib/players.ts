@@ -1,4 +1,5 @@
 import { cell } from "../main";
+import { getUsers, User, saveUsers } from "./saveData";
 
 type PlayerNumber = 1 | 2;
 
@@ -70,4 +71,19 @@ export function getCurrentWord(
   player: PlayerNumber
 ): Array<cell<number, string>> {
   return player == 1 ? player1.currentWords : player2.currentWords;
+}
+
+function findUser(userName: string): User | undefined{
+  let i: number = 0;
+  let userArray: Array<User> = getUsers()
+  while(i < userArray.length){
+    if (userArray[i].userName == userName){
+      return userArray[i]
+    }
+  }
+  
+}
+
+export function updateHighscore(): void {
+  
 }
