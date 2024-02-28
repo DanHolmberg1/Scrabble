@@ -114,7 +114,7 @@ export function checkWordsOnBoard(
     return false; // Invalid board due to a free-flowing letter
   }
   
-
+  const hasFreeFlowingWords??
 
 
 

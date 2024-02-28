@@ -1414,3 +1414,7 @@ const testPlayer: Player = {
     },
   ],
 };
+
+test("getPoints", () => {
+  expect(getPoints(testBoard, testPlayer)).toEqual(63);
+});

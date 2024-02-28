@@ -15,6 +15,8 @@ function validateLogin() {
   }
 }
 
+function validateLogin2() {}
+
 const loginButton = document.getElementById("loginButton1");
 const loginButton2 = document.getElementById("loginButton2"); //Behöver också en eventlistener
 const createUserButton = document.getElementById("createUser"); //Behöver också en eventlistener

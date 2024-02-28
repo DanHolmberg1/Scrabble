@@ -110,7 +110,7 @@ function createBoard(boardElement, rows, cols, board) {
                         row: onRow, // Assuming these are defined in your drop logic
                         col: onColl,
                         char: tileCharacter_1, // The character of the tile placed
-                        origin: (draggableParentId === null || draggableParentId === void 0 ? void 0 : draggableParentId.includes("leftTiles")) ? 'left' : 'right', // Determine the origin based on draggableParentId
+                        origin: (draggableParentId === null || draggableParentId === void 0 ? void 0 : draggableParentId.includes("leftTiles")) ? "left" : "right", // Determine the origin based on draggableParentId
                     });
                     cell.appendChild(draggable);
                     cell.classList.remove("over"); // Cleanup visual cue.
@@ -141,8 +141,8 @@ function createBoard(boardElement, rows, cols, board) {
                 cell.setAttribute("data-special", "triple-word");
                 cell.setAttribute("id", id);
             }
-            else if (speicalSquares[row][col] === 5) {
-                board[row][col].special = 5;
+            else if (speicalSquares[row][col] === -1) {
+                board[row][col].special = -1;
                 cell.setAttribute("data-special", "starting-square");
                 cell.setAttribute("id", id);
             }
@@ -161,7 +161,7 @@ var speicalSquares = [
     [4, 0, 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4],
     [0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
     [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-    [1, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 3, 0, 0, 1],
+    [1, 0, 0, 3, 0, 0, 0, -1, 0, 0, 0, 3, 0, 0, 1],
     [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
     [0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0],
     [4, 0, 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 0, 0, 4],
@@ -186,32 +186,36 @@ function makeTilesDraggable() {
     tiles.forEach(function (tile) {
         tile.setAttribute("draggable", "true");
         tile.addEventListener("dragstart", function (event) {
-            var DragEvent = event;
-            if (DragEvent.dataTransfer) {
-                DragEvent.dataTransfer.setData("text", tile.id); // Correctly access dataTransfer
-                if (!tile.parentElement) {
-                    throw new Error("tile.parentElement does not exist");
-                }
-                else {
-                    ///////////////////
-                    var dropTargetId = tile.parentElement.id;
-                    var onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
-                    var onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
-                    var gameBoardObjNow = gameBoard[onRow][onColl];
-                    //////////////////A bunch of garbage code
-                    //console.log("before", gameBoardObjNow);
-                    if (turn % 2 === 0) {
-                        (0, players_1.removeFromCurrentWord)(1, gameBoardObjNow);
+            if (tile.getAttribute("draggable") === "true") {
+                var DragEvent_1 = event;
+                if (DragEvent_1.dataTransfer) {
+                    DragEvent_1.dataTransfer.setData("text", tile.id); // Correctly access dataTransfer
+                    if (!tile.parentElement) {
+                        throw new Error("tile.parentElement does not exist");
                     }
                     else {
-                        (0, players_1.removeFromCurrentWord)(2, gameBoardObjNow);
+                        ///////////////////
+                        var dropTargetId = tile.parentElement.id;
+                        var onRow = parseInt(dropTargetId.substring(0, dropTargetId.indexOf(" ")));
+                        var onColl = parseInt(dropTargetId.substring(dropTargetId.lastIndexOf(" ") + 1));
+                        var gameBoardObjNow = gameBoard[onRow][onColl];
+                        //////////////////A bunch of garbage code
+                        //console.log("before", gameBoardObjNow);
+                        if (turn % 2 === 0) {
+                            (0, players_1.removeFromCurrentWord)(1, gameBoardObjNow);
+                        }
+                        else {
+                            (0, players_1.removeFromCurrentWord)(2, gameBoardObjNow);
+                        }
+                        //console.log("after", gameBoardObjNow);
+                        gameBoardObjNow.char = "";
+                        gameBoardObjNow.special;
+                        //console.log(gameBoard);
                     }
-                    //console.log("after", gameBoardObjNow);
-                    gameBoardObjNow.char = "";
-                    gameBoardObjNow.special;
-                    //console.log(gameBoard);
                 }
             }
+            else
+                event.preventDefault();
         });
     });
 }
@@ -270,20 +274,20 @@ function setupTakeBackTile() {
     gameBoard.forEach(function (row, rowIndex) {
         row.forEach(function (cell, colIndex) {
             var cellElement = document.getElementById("".concat(rowIndex, " ").concat(colIndex));
-            cellElement === null || cellElement === void 0 ? void 0 : cellElement.addEventListener('contextmenu', function () {
+            cellElement === null || cellElement === void 0 ? void 0 : cellElement.addEventListener("contextmenu", function () {
                 var tileIndex = currentTurnPlacedTiles.findIndex(function (t) { return t.row === rowIndex && t.col === colIndex; });
                 if (tileIndex !== -1) {
                     var tile = currentTurnPlacedTiles[tileIndex];
-                    if (tile.origin === 'left') {
+                    if (tile.origin === "left") {
                         leftLetters += tile.char;
-                        (0, endTurn_1.refreshTiles)('leftTiles', leftLetters);
+                        (0, endTurn_1.refreshTiles)("leftTiles", leftLetters);
                     }
-                    else if (tile.origin === 'right') {
+                    else if (tile.origin === "right") {
                         rightLetters += tile.char;
-                        (0, endTurn_1.refreshTiles)('rightTiles', rightLetters);
+                        (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
                     }
-                    gameBoard[rowIndex][colIndex].char = '';
-                    cellElement.innerText = '';
+                    gameBoard[rowIndex][colIndex].char = "";
+                    cellElement.innerText = "";
                     currentTurnPlacedTiles.splice(tileIndex, 1);
                 }
             });
@@ -310,16 +314,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 if (submitButton) {
     submitButton.addEventListener("click", function () {
-        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library)) {
-            //make laid tiles not movable
+        console.log(gameBoard);
+        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library) && gameBoard[7][7].char !== "") {
             var tiles = document.querySelectorAll(".tile");
             tiles.forEach(function (tile) {
                 tile.className = "notMovableEnyMore";
                 tile.setAttribute("draggable", "false");
             });
-            //Pass on the turn
             turn++;
-            // Logic to display the correct set of tiles and replenish letters
             var leftTiles = document.getElementById("leftTiles");
             var rightTiles = document.getElementById("rightTiles");
             if (turn % 2 === 0) {

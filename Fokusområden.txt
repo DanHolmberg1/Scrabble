@@ -1,8 +1,8 @@
 Major:
 Göra så man kan ta bort bokstäver från brädet.|Dan fixa =) pls
-Göra så att första ordet ska starta på starten.|Dan fixa =) pls
-Göra så att man inte kan flytta redan lagda bokstäver efter sin turn(man kan
-just nu flytta på motståndarens rutor)(har fixat denna den kan ha en liten bug...)
+
+Man kan lägga två ord långt ifrån varrandra. 
+
 Innloggning 
 
 Minor:

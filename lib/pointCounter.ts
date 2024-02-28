@@ -45,7 +45,11 @@ export function getPoints(
   player: Player
 ): number {
   let memoizedCells: Array<cell<number, string>> = [];
-
+  //console.log("");
+  //console.log("");
+  //console.log("");
+  //console.log("");
+  //console.log("");
   function treverse(
     gameBoard: Array<Array<cell<number, string>>>,
     startCell: cell<number, string>,
