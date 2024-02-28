@@ -12,20 +12,17 @@ CSS - Brädet skiftar
     normal zoom hamnar den ändå över brädet.
 
 Göra tester: 
+randomLetters
 pointCounter
-randomLetters
-spellChecker(klart?)
 saveData
-randomLetters
 players
 main(?)
 
 
 Skriva funktionsbeskrivningar:
-pointCounter(klart)
-randomLetters
-spellChecker
 saveData
-randomLetters
 players
-main
+
+Skriva på raport
+
+Presentation? 
