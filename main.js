@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeTilesDraggable = exports.outerEdges = void 0;
+exports.makeTilesDraggable = void 0;
 var q = require("./lib/queue_array");
 var randomLetters_1 = require("./lib/randomLetters");
 var spellChecker_1 = require("./lib/spellChecker");
 var endTurn_1 = require("./lib/endTurn");
 var pointCounter_1 = require("./lib/pointCounter");
 var players_1 = require("./lib/players");
-exports.outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
+var dfs_1 = require("./lib/dfs");
 var submitButton = document.getElementById("submitButton");
 var changeLettersButton = document.getElementById("newLetters");
 var passButton = document.getElementById("pass");
@@ -297,8 +297,7 @@ function setupTakeBackTile() {
 document.addEventListener("DOMContentLoaded", function () {
     var boardElement = document.getElementById("board");
     if (boardElement) {
-        createBoard(boardElement, 15, 15, gameBoard); // Your existing board creation logic
-        exports.outerEdges = { maxRow: 14, minRow: 0, maxCol: 14, minCol: 0 };
+        createBoard(boardElement, 15, 15, gameBoard);
     }
     for (var i = 0; i < 7; i++) {
         leftLetters += q.head(letterQueue);
@@ -315,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
 if (submitButton) {
     submitButton.addEventListener("click", function () {
         console.log(gameBoard);
-        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library) && gameBoard[7][7].char !== "") {
+        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library) && gameBoard[7][7].char !== "" && (0, dfs_1.countConnectedLetters)(gameBoard, 7, 7) === (0, dfs_1.countPlacedSquares)(gameBoard)) {
             var tiles = document.querySelectorAll(".tile");
             tiles.forEach(function (tile) {
                 tile.className = "notMovableEnyMore";

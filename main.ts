@@ -13,10 +13,10 @@ import {
   addPlayerScore,
   getPlayerScore,
 } from "./lib/players";
+import { countConnectedLetters, countPlacedSquares } from "./lib/dfs";
+
 
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
-
-export let outerEdges = { maxRow: 0, minRow: 0, maxCol: 0, minCol: 0 };
 
 const submitButton = document.getElementById("submitButton");
 
@@ -354,8 +354,7 @@ function setupTakeBackTile() {
 document.addEventListener("DOMContentLoaded", () => {
   const boardElement = document.getElementById("board");
   if (boardElement) {
-    createBoard(boardElement, 15, 15, gameBoard); // Your existing board creation logic
-    outerEdges = { maxRow: 14, minRow: 0, maxCol: 14, minCol: 0 };
+    createBoard(boardElement, 15, 15, gameBoard); 
   }
 
   for (let i = 0; i < 7; i++) {
@@ -375,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
 if (submitButton) {
   submitButton.addEventListener("click", () => {
     console.log(gameBoard);
-    if (checkWordsOnBoard(gameBoard, library) && gameBoard[7][7].char !== "") {
+    if (checkWordsOnBoard(gameBoard, library) && gameBoard[7][7].char !== "" && countConnectedLetters(gameBoard, 7, 7) === countPlacedSquares(gameBoard)) {
       const tiles = document.querySelectorAll(".tile");
       tiles.forEach((tile) => {
         tile.className = "notMovableEnyMore";

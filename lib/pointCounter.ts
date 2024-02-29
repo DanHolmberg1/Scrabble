@@ -1,7 +1,8 @@
 import { get } from "http";
 import { cell } from "../main";
 import { Player } from "./players";
-import { outerEdges } from "../main";
+
+let outerEdges = { maxRow: 14, minRow: 0, maxCol: 14, minCol: 0 };
 
 const pointList = {
   a: 1,

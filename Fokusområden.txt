@@ -1,6 +1,4 @@
 Major:
-Göra så man kan ta bort bokstäver från brädet.|Dan fixa =) pls
-
 Man kan lägga två ord långt ifrån varrandra. 
 
 Innloggning 
