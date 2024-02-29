@@ -73,7 +73,7 @@ export function getCurrentWord(
   return player == 1 ? player1.currentWords : player2.currentWords;
 }
 
-function findUser(userName: string): User {
+export function findUser(userName: string): User {
   let i: number = 0;
   let userArray: Array<User> = getUsers()
   while(i < userArray.length){
@@ -120,5 +120,12 @@ export function updateHighscore(): void {
     }
   }
   saveUsers(newUserArray);
+}
+
+export function makeNewUser(username: string, password: string): void {
+  let users: Array<User> = getUsers();
+  const newUser: User = {userName: username, password: password, highScore: 0}
+  users.push(newUser);
+  saveUsers(users);
 }
 
