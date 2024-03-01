@@ -21,7 +21,7 @@ const submitButton = document.getElementById("submitButton");
 
 const changeLettersButton = document.getElementById("newLetters");
 
-const passButton = document.getElementById("pass");
+const takeBackTiles = document.getElementById("takeBackLetters");
 
 let gameBoard: Array<Array<cell<number, string>>> = [];
 
@@ -435,6 +435,8 @@ if (submitButton) {
   });
 }
 
+
+
 if (changeLettersButton) {
   changeLettersButton.addEventListener("click", () => {
     if (turn % 2 === 0) {
@@ -456,3 +458,5 @@ if (changeLettersButton) {
     }
   });
 }
+
+if()
