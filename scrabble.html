@@ -7,77 +7,76 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body oncontextmenu="return false;">
+    <div id="centerBoard">
+      <div class="player-info" id="player1Info">
+        <div class="player-name" id="player1-name">Player 1</div>
+        <div class="player-score" id="player1Score">Score: 0</div>
+      </div>
 
-  <div>
-    <div class="player-info" id="player1Info">
-      <div class="player-name" id="player1-name">Player 1</div>
-      <div class="player-score" id="player1Score">Score: 0</div>
-    </div>
+      <div class="player-info" id="player2Info">
+        <div class="player-name" id="player2-name">Player 2</div>
+        <div class="player-score" id="player2Score">Score: 0</div>
+      </div>
 
-    <div class="player-info" id="player2Info">
-      <div class="player-name" id="player2-name">Player 2</div>
-      <div class="player-score" id="player2Score">Score: 0</div>
-    </div>
+      <div id="leftTiles" class="tiles-containerleft"></div>
 
+      <div class="board" id="board"></div>
 
-    <div class="container">
-      <div class="vertical-center">
-        <button class="button" type="button" id="submitButton">Submit</button>
-        <button class="button" type="button" id="newLetters">Change your letters</button>
-        <button class="button" type="button" id="pass">Pass</button>
+      <div id="rightTiles" class="tiles-containerright"></div>
+
+      <div class="container">
+        <div class="vertical-center">
+          <button class="button" type="button" id="submitButton">Submit</button>
+          <button class="button" type="button" id="newLetters">
+            Change your letters
+          </button>
+        </div>
       </div>
     </div>
-    <div id="leftTiles" class="tiles-containerleft"></div>
 
-    <div class="board" id="board"></div>
-
-    <div id="rightTiles" class="tiles-containerright"></div>
-  </div>
-
-
-  <div id="login-container" style="display: none">
-    <h2>Login player1</h2>
-    <form id="login-form-player1">
-      <label for="username">Username:</label>
-      <input type="text" id="username1" placeholder="Username" required />
-      <br />
-      <label for="password">Password:</label>
-      <input type="password" id="password1" placeholder="Password" required />
-      <br />
-      <button type="button" id="loginButton1">Login</button>
-    </form>
-    <h2>Login player2</h2>
-    <form id="login-form-player2">
-      <label for="username">Username:</label>
-      <input type="text" id="username2" placeholder="Username" required />
-      <br />
-      <label for="password">Password:</label>
-      <input type="password" id="password2" placeholder="Password" required />
-      <br />
-      <button type="button" id="loginButton2">Login</button>
-    </form>
-    <h3>Create new user</h3>
-    <form id="create-user-form">
-      <label for="username">Username:</label>
-      <input type="text" id="newUsername" placeholder="Username" required />
-      <br />
-      <label for="password">Password:</label>
-      <input
+    <div id="login-container" style="display: none">
+      <h2>Login player1</h2>
+      <form id="login-form-player1">
+        <label for="username">Username:</label>
+        <input type="text" id="username1" placeholder="Username" required />
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" id="password1" placeholder="Password" required />
+        <br />
+        <button type="button" id="loginButton1">Login</button>
+      </form>
+      <h2>Login player2</h2>
+      <form id="login-form-player2">
+        <label for="username">Username:</label>
+        <input type="text" id="username2" placeholder="Username" required />
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" id="password2" placeholder="Password" required />
+        <br />
+        <button type="button" id="loginButton2">Login</button>
+      </form>
+      <h3>Create new user</h3>
+      <form id="create-user-form">
+        <label for="username">Username:</label>
+        <input type="text" id="newUsername" placeholder="Username" required />
+        <br />
+        <label for="password">Password:</label>
+        <input
           type="password"
           id="passwordForNewUser"
           placeholder="Password"
           required
         />
-      <br />
-      <label for="password">retype Password:</label>
-      <input
+        <br />
+        <label for="password">retype Password:</label>
+        <input
           type="password"
           id="retypePassword"
           placeholder="Password"
           required
         />
-      <br />
-      <button type="button" id="createUser">Create</button>
+        <br />
+        <button type="button" id="createUser">Create</button>
       </form>
     </div>
 

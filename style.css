@@ -1,14 +1,7 @@
 /*[draggable="false"] {
   user-select: none;
 }*/
-movable-square {
-  width: 50px;
-  height: 50px;
-  background-color: blue;
-  position: absolute;
-  cursor: grab;
-}
-body {
+#centerBoard {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,10 +9,19 @@ body {
   margin: 0;
 }
 
+movable-square {
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  position: absolute;
+  cursor: grab;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(15, 40px);
   gap: 2px;
+  position: absolute;
 }
 
 .cell {
@@ -68,17 +70,13 @@ body {
 }
 
 .tiles-containerleft {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 10px;
+  position: relative;
+  left: -195px;
   display: block;
 }
 .tiles-containerright {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 10px;
+  position: relative;
+  right: -480px;
   display: none;
 }
 
@@ -108,13 +106,14 @@ body {
 
 .container {
   height: 50px;
-  width: 400px;
-  position: absolute;
-  bottom: 15%;
-  border: 3px solid green;
-  display: flex;
-  justify-content: center;
+  width: 280px;
+  bottom: 5%;
+  border: 3px solid rgba(0, 60, 255, 0.358);
   align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  display: flex;
+  position: relative;
+  top: 350px;
 }
 
 .horizontal-center {

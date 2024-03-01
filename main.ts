@@ -15,7 +15,6 @@ import {
 } from "./lib/players";
 import { countConnectedLetters, countPlacedSquares } from "./lib/dfs";
 
-
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
 const submitButton = document.getElementById("submitButton");
@@ -354,7 +353,7 @@ function setupTakeBackTile() {
 document.addEventListener("DOMContentLoaded", () => {
   const boardElement = document.getElementById("board");
   if (boardElement) {
-    createBoard(boardElement, 15, 15, gameBoard); 
+    createBoard(boardElement, 15, 15, gameBoard);
   }
 
   for (let i = 0; i < 7; i++) {
@@ -374,7 +373,11 @@ document.addEventListener("DOMContentLoaded", () => {
 if (submitButton) {
   submitButton.addEventListener("click", () => {
     console.log(gameBoard);
-    if (checkWordsOnBoard(gameBoard, library) && gameBoard[7][7].char !== "" && countConnectedLetters(gameBoard, 7, 7) === countPlacedSquares(gameBoard)) {
+    if (
+      checkWordsOnBoard(gameBoard, library) &&
+      gameBoard[7][7].char !== "" &&
+      countConnectedLetters(gameBoard, 7, 7) === countPlacedSquares(gameBoard)
+    ) {
       const tiles = document.querySelectorAll(".tile");
       tiles.forEach((tile) => {
         tile.className = "notMovableEnyMore";
@@ -385,9 +388,11 @@ if (submitButton) {
       const rightTiles = document.getElementById("rightTiles");
 
       if (turn % 2 === 0) {
-        //Odd urns are player 2 even are player 1
+        //Odd turns are player 2 even are player 1
         //Add score to player2
-        addPlayerScore(2, roundScore);
+        if (player2.currentWords.length !== 0) {
+          addPlayerScore(2, roundScore);
+        }
         const player2_score = document.getElementById("player2Score");
         if (player2_score)
           player2_score.innerText = `Score: ${getPlayerScore(2)}`;
@@ -405,7 +410,10 @@ if (submitButton) {
         refreshTiles("leftTiles", leftLetters);
       } else {
         //Add score to player1
-        addPlayerScore(1, roundScore);
+        if (player1.currentWords.length !== 0) {
+          addPlayerScore(1, roundScore);
+        }
+
         const player1_score = document.getElementById("player1Score");
         if (player1_score)
           player1_score.innerText = `Score: ${getPlayerScore(1)}`;
@@ -446,11 +454,5 @@ if (changeLettersButton) {
       }
       refreshTiles("rightTiles", rightLetters);
     }
-  });
-}
-
-if (passButton) {
-  passButton.addEventListener("click", () => {
-    turn++;
   });
 }

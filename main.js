@@ -314,7 +314,9 @@ document.addEventListener("DOMContentLoaded", function () {
 if (submitButton) {
     submitButton.addEventListener("click", function () {
         console.log(gameBoard);
-        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library) && gameBoard[7][7].char !== "" && (0, dfs_1.countConnectedLetters)(gameBoard, 7, 7) === (0, dfs_1.countPlacedSquares)(gameBoard)) {
+        if ((0, spellChecker_1.checkWordsOnBoard)(gameBoard, library) &&
+            gameBoard[7][7].char !== "" &&
+            (0, dfs_1.countConnectedLetters)(gameBoard, 7, 7) === (0, dfs_1.countPlacedSquares)(gameBoard)) {
             var tiles = document.querySelectorAll(".tile");
             tiles.forEach(function (tile) {
                 tile.className = "notMovableEnyMore";
@@ -324,9 +326,11 @@ if (submitButton) {
             var leftTiles = document.getElementById("leftTiles");
             var rightTiles = document.getElementById("rightTiles");
             if (turn % 2 === 0) {
-                //Odd urns are player 2 even are player 1
+                //Odd turns are player 2 even are player 1
                 //Add score to player2
-                (0, players_1.addPlayerScore)(2, roundScore);
+                if (players_1.player2.currentWords.length !== 0) {
+                    (0, players_1.addPlayerScore)(2, roundScore);
+                }
                 var player2_score = document.getElementById("player2Score");
                 if (player2_score)
                     player2_score.innerText = "Score: ".concat((0, players_1.getPlayerScore)(2));
@@ -346,7 +350,9 @@ if (submitButton) {
             }
             else {
                 //Add score to player1
-                (0, players_1.addPlayerScore)(1, roundScore);
+                if (players_1.player1.currentWords.length !== 0) {
+                    (0, players_1.addPlayerScore)(1, roundScore);
+                }
                 var player1_score = document.getElementById("player1Score");
                 if (player1_score)
                     player1_score.innerText = "Score: ".concat((0, players_1.getPlayerScore)(1));
