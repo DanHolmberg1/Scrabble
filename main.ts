@@ -103,21 +103,33 @@ function createBoard(
           const tileCharacter = draggable.innerText;
           const draggableParentId = draggable.parentElement?.id;
 
-          // Identify source container and remove character from the corresponding array
+          // Identify side/player container and remove character from the corresponding array
           if (draggableParentId && draggableParentId.includes("leftTiles")) {
+            let found = false; // Flag to indicate removal
             leftLetters = leftLetters
-              .split("")
-              .filter((c) => c !== tileCharacter)
-              .join("");
-          } else if (
-            draggableParentId &&
-            draggableParentId.includes("rightTiles")
-          ) {
+                .split("")
+                .filter((c) => {
+                    if (!found && c === tileCharacter) {
+                        found = true; // Mark that we found and are removing the character
+                        return false; // Remove this character
+                    }
+                    return true; // Keep all other characters
+                })
+                .join("");
+        } else if (draggableParentId && draggableParentId.includes("rightTiles")) {
+            let found = false; // Flag to indicate removal
             rightLetters = rightLetters
-              .split("")
-              .filter((c) => c !== tileCharacter)
-              .join("");
-          }
+                .split("")
+                .filter((c) => {
+                    if (!found && c === tileCharacter) {
+                        found = true; // Mark that we found and are removing the character
+                        return false; // Remove this character
+                    }
+                    return true; // Keep all other characters
+                })
+                .join("");
+        }
+        
 
           // Existing logic for handling a successful drop
           const onRow = parseInt(
@@ -459,4 +471,3 @@ if (changeLettersButton) {
   });
 }
 
-if()

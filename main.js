@@ -10,7 +10,7 @@ var players_1 = require("./lib/players");
 var dfs_1 = require("./lib/dfs");
 var submitButton = document.getElementById("submitButton");
 var changeLettersButton = document.getElementById("newLetters");
-var passButton = document.getElementById("pass");
+var takeBackTiles = document.getElementById("takeBackLetters");
 var gameBoard = [];
 var roundScore = 0;
 var turn = 0;
@@ -68,16 +68,29 @@ function createBoard(boardElement, rows, cols, board) {
                     var draggableParentId = (_b = draggable.parentElement) === null || _b === void 0 ? void 0 : _b.id;
                     // Identify source container and remove character from the corresponding array
                     if (draggableParentId && draggableParentId.includes("leftTiles")) {
+                        var found_1 = false; // Flag to indicate removal
                         leftLetters = leftLetters
                             .split("")
-                            .filter(function (c) { return c !== tileCharacter_1; })
+                            .filter(function (c) {
+                            if (!found_1 && c === tileCharacter_1) {
+                                found_1 = true; // Mark that we found and are removing the character
+                                return false; // Remove this character
+                            }
+                            return true; // Keep all other characters
+                        })
                             .join("");
                     }
-                    else if (draggableParentId &&
-                        draggableParentId.includes("rightTiles")) {
+                    else if (draggableParentId && draggableParentId.includes("rightTiles")) {
+                        var found_2 = false; // Flag to indicate removal
                         rightLetters = rightLetters
                             .split("")
-                            .filter(function (c) { return c !== tileCharacter_1; })
+                            .filter(function (c) {
+                            if (!found_2 && c === tileCharacter_1) {
+                                found_2 = true; // Mark that we found and are removing the character
+                                return false; // Remove this character
+                            }
+                            return true; // Keep all other characters
+                        })
                             .join("");
                     }
                     // Existing logic for handling a successful drop
@@ -279,16 +292,22 @@ function setupTakeBackTile() {
                 if (tileIndex !== -1) {
                     var tile = currentTurnPlacedTiles[tileIndex];
                     if (tile.origin === "left") {
+                        console.log("Taken back before adding " + leftLetters);
                         leftLetters += tile.char;
+                        console.log("Taken back after adding " + leftLetters);
                         (0, endTurn_1.refreshTiles)("leftTiles", leftLetters);
                     }
                     else if (tile.origin === "right") {
+                        console.log("Taken back before adding");
                         rightLetters += tile.char;
+                        console.log("Taken back after adding");
                         (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
                     }
                     gameBoard[rowIndex][colIndex].char = "";
                     cellElement.innerText = "";
                     currentTurnPlacedTiles.splice(tileIndex, 1);
+                    console.log(currentTurnPlacedTiles);
+                    console.log("done");
                 }
             });
         });
@@ -394,10 +413,5 @@ if (changeLettersButton) {
             }
             (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
         }
-    });
-}
-if (passButton) {
-    passButton.addEventListener("click", function () {
-        turn++;
     });
 }
