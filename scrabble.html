@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body oncontextmenu="return false;">
-    <div id="centerBoard" style="display: none">
+    <div style="display: block">
+    <div id="centerBoard">
       <div class="player-info" id="player1Info">
         <div class="player-name" id="player1-name">Player 1</div>
         <div class="player-score" id="player1Score">Score: 0</div>
@@ -36,8 +37,9 @@
         </div>
       </div>
     </div>
+    </div>
 
-    <div id="login-container" style="display: block">
+    <div id="login-container" style="display: none">
       <h2>Login player1</h2>
       <form id="login-form-player1">
         <label for="username">Username:</label>
