@@ -1391,7 +1391,7 @@ const testPlayer: Player = {
     {
       row: 9,
       col: 10,
-      special: 0,
+      special: 4,
       char: "Q",
     },
     {
@@ -1412,9 +1412,22 @@ const testPlayer: Player = {
       special: 3,
       char: "U",
     },
+    {
+      row: 1,
+      col: 1,
+      special: 2,
+      char: "U",
+    },
+    {
+      row: 14,
+      col: 14,
+      special: 2,
+      char: "U",
+    },
   ],
 };
 
 test("getPoints", () => {
-  expect(getPoints(testBoard, testPlayer)).toEqual(67);
+  expect(getPoints(testBoard, testPlayer)).toEqual(127);
 });
+
