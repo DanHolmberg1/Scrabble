@@ -8,7 +8,7 @@ export type User = {
 
 //fs.readFileSync('users.txt', 'utf8');
 
-function jsonToUserArray(jsonString: string): Array<User> {
+export function jsonToUserArray(jsonString: string): Array<User> {
     let tempJson: Array<string> = JSON.parse(jsonString);
     let newArray: Array<User> = [];
     tempJson.forEach(x  => {
@@ -19,7 +19,7 @@ function jsonToUserArray(jsonString: string): Array<User> {
     return newArray;
 }
 
-function userArrayToJson(userArray: Array<User>): string {
+export function userArrayToJson(userArray: Array<User>): string {
     let tempArray: Array<string> = [];
     userArray.forEach(x => {
         let currentIndex: number = userArray.indexOf(x);
@@ -43,9 +43,6 @@ export function getUsers(): Array<User> {
     }
 }
 
-function loadUser(): void {
-    fetch("lib/users.txt")
-}
 
 /*
 function testing(): void {
