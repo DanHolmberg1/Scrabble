@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateUserCreation = exports.validateLogin2 = exports.validateLogin = void 0;
 var players_1 = require("./lib/players");
 function validateLogin() {
     var usernameInput = document.getElementById("username1" //html id of username 1
@@ -9,12 +10,13 @@ function validateLogin() {
         var username = usernameInput.value;
         var password = passwordInput.value;
         var playerUser = (0, players_1.findUser)(username);
-        if (password == playerUser.password) {
+        if (password == playerUser.password && playerUser.userName !== "") {
             (0, players_1.setUserName)(1, username);
             console.log("Success!");
         }
     }
 }
+exports.validateLogin = validateLogin;
 function validateLogin2() {
     var usernameInput = document.getElementById("username2" //html id of username 2
     );
@@ -23,12 +25,13 @@ function validateLogin2() {
         var username = usernameInput.value;
         var password = passwordInput.value;
         var playerUser = (0, players_1.findUser)(username);
-        if (password == playerUser.password) {
+        if (password == playerUser.password && playerUser.userName !== "") {
             (0, players_1.setUserName)(2, username);
             console.log("Success!");
         }
     }
 }
+exports.validateLogin2 = validateLogin2;
 function validateUserCreation() {
     var usernameInput = document.getElementById("newUsername" //html id of username 1
     );
@@ -44,15 +47,4 @@ function validateUserCreation() {
         }
     }
 }
-var loginButton = document.getElementById("loginButton1");
-var loginButton2 = document.getElementById("loginButton2");
-var createUserButton = document.getElementById("createUser");
-if (loginButton !== null) {
-    loginButton.addEventListener("click", validateLogin);
-}
-if (loginButton2) {
-    loginButton2.addEventListener("click", validateLogin2);
-}
-if (createUserButton) {
-    createUserButton.addEventListener("click", validateUserCreation);
-}
+exports.validateUserCreation = validateUserCreation;

@@ -14,6 +14,7 @@ import {
   getPlayerScore,
 } from "./lib/players";
 import { countConnectedLetters, countPlacedSquares } from "./lib/dfs";
+import { validateLogin, validateLogin2, validateUserCreation } from "./login";
 
 export type cell<A, B> = { row: A; col: A; special: A; char: B };
 
@@ -471,3 +472,18 @@ if (changeLettersButton) {
   });
 }
 
+const loginButton = document.getElementById("loginButton1");
+const loginButton2 = document.getElementById("loginButton2"); 
+const createUserButton = document.getElementById("createUser"); 
+
+if (loginButton !== null) {
+  loginButton.addEventListener("click", validateLogin);
+}
+
+if (loginButton2) {
+  loginButton2.addEventListener("click", validateLogin2);
+}
+
+if (createUserButton){
+  createUserButton.addEventListener("click", validateUserCreation)
+}

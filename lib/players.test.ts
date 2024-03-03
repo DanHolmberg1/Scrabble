@@ -4,12 +4,14 @@ import { getPlayerScore, addPlayerScore, resetScores, player1, player2, addToCur
 import { User, jsonToUserArray, userArrayToJson } from "./saveData";
 import { cell } from "../main";
 
+//adding score to player 1
 test("scoreTest", () => {
     addPlayerScore(1, 50);
     let playerScore: number = getPlayerScore(1);
     expect(playerScore).toEqual(50)
 });
 
+//adding score to player 2
 test("scoreTest2", () => {
     addPlayerScore(2, 50);
     let playerScore: number = getPlayerScore(2);
