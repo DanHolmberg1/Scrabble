@@ -8,6 +8,7 @@ var endTurn_1 = require("./lib/endTurn");
 var pointCounter_1 = require("./lib/pointCounter");
 var players_1 = require("./lib/players");
 var dfs_1 = require("./lib/dfs");
+var login_1 = require("./login");
 var submitButton = document.getElementById("submitButton");
 var changeLettersButton = document.getElementById("newLetters");
 var takeBackTiles = document.getElementById("takeBackLetters");
@@ -408,4 +409,16 @@ if (changeLettersButton) {
             (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
         }
     });
+}
+var loginButton = document.getElementById("loginButton1");
+var loginButton2 = document.getElementById("loginButton2");
+var createUserButton = document.getElementById("createUser");
+if (loginButton !== null) {
+    loginButton.addEventListener("click", login_1.validateLogin);
+}
+if (loginButton2) {
+    loginButton2.addEventListener("click", login_1.validateLogin2);
+}
+if (createUserButton) {
+    createUserButton.addEventListener("click", login_1.validateUserCreation);
 }
