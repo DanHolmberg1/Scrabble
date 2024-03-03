@@ -66,7 +66,7 @@ function createBoard(boardElement, rows, cols, board) {
                 if (draggable && cell && cell.childElementCount == 0) {
                     var tileCharacter_1 = draggable.innerText;
                     var draggableParentId = (_b = draggable.parentElement) === null || _b === void 0 ? void 0 : _b.id;
-                    // Identify source container and remove character from the corresponding array
+                    // Identify side/player container and remove character from the corresponding array
                     if (draggableParentId && draggableParentId.includes("leftTiles")) {
                         var found_1 = false; // Flag to indicate removal
                         leftLetters = leftLetters
@@ -292,22 +292,16 @@ function setupTakeBackTile() {
                 if (tileIndex !== -1) {
                     var tile = currentTurnPlacedTiles[tileIndex];
                     if (tile.origin === "left") {
-                        console.log("Taken back before adding " + leftLetters);
                         leftLetters += tile.char;
-                        console.log("Taken back after adding " + leftLetters);
                         (0, endTurn_1.refreshTiles)("leftTiles", leftLetters);
                     }
                     else if (tile.origin === "right") {
-                        console.log("Taken back before adding");
                         rightLetters += tile.char;
-                        console.log("Taken back after adding");
                         (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
                     }
                     gameBoard[rowIndex][colIndex].char = "";
                     cellElement.innerText = "";
                     currentTurnPlacedTiles.splice(tileIndex, 1);
-                    console.log(currentTurnPlacedTiles);
-                    console.log("done");
                 }
             });
         });

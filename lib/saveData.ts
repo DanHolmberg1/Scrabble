@@ -1,5 +1,3 @@
-import * as fs from 'fs'
-
 export type User = {
     userName: string;
     password: string;
@@ -31,16 +29,22 @@ function userArrayToJson(userArray: Array<User>): string {
 }
 
 export function saveUsers(userArray: Array<User>): void {
-    fs.writeFile('./users.txt', userArrayToJson(userArray), function(err){
-        if (err) {
-            throw err
-        }
-    });
+    localStorage.setItem("UserData", userArrayToJson(userArray))
 }
 
 export function getUsers(): Array<User> {
-    let tempString: string = fs.readFileSync('./users.txt', 'utf8');
-    return jsonToUserArray(tempString);
+    let tempString: string | null = localStorage.getItem("UserData");
+    let emptyArray: Array<User> = []
+    if (tempString === null){
+        return emptyArray
+    }
+    else {
+        return jsonToUserArray(tempString);
+    }
+}
+
+function loadUser(): void {
+    fetch("lib/users.txt")
 }
 
 /*
