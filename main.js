@@ -81,7 +81,8 @@ function createBoard(boardElement, rows, cols, board) {
                         })
                             .join("");
                     }
-                    else if (draggableParentId && draggableParentId.includes("rightTiles")) {
+                    else if (draggableParentId &&
+                        draggableParentId.includes("rightTiles")) {
                         var found_2 = false; // Flag to indicate removal
                         rightLetters = rightLetters
                             .split("")
@@ -410,9 +411,20 @@ if (changeLettersButton) {
         }
     });
 }
+var startButton = document.getElementById("startButton");
 var loginButton = document.getElementById("loginButton1");
 var loginButton2 = document.getElementById("loginButton2");
 var createUserButton = document.getElementById("createUser");
+var loginContainer = document.getElementById("login-container");
+var outerDiv = document.getElementById("outerDiv");
+if (startButton !== null) {
+    startButton.addEventListener("click", function () {
+        if (loginContainer)
+            loginContainer.style.display = "none";
+        if (outerDiv)
+            outerDiv.style.display = "block";
+    });
+}
 if (loginButton !== null) {
     loginButton.addEventListener("click", login_1.validateLogin);
 }

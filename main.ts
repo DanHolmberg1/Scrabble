@@ -108,29 +108,31 @@ function createBoard(
           if (draggableParentId && draggableParentId.includes("leftTiles")) {
             let found = false; // Flag to indicate removal
             leftLetters = leftLetters
-                .split("")
-                .filter((c) => {
-                    if (!found && c === tileCharacter) {
-                        found = true; // Mark that we found and are removing the character
-                        return false; // Remove this character
-                    }
-                    return true; // Keep all other characters
-                })
-                .join("");
-        } else if (draggableParentId && draggableParentId.includes("rightTiles")) {
+              .split("")
+              .filter((c) => {
+                if (!found && c === tileCharacter) {
+                  found = true; // Mark that we found and are removing the character
+                  return false; // Remove this character
+                }
+                return true; // Keep all other characters
+              })
+              .join("");
+          } else if (
+            draggableParentId &&
+            draggableParentId.includes("rightTiles")
+          ) {
             let found = false; // Flag to indicate removal
             rightLetters = rightLetters
-                .split("")
-                .filter((c) => {
-                    if (!found && c === tileCharacter) {
-                        found = true; // Mark that we found and are removing the character
-                        return false; // Remove this character
-                    }
-                    return true; // Keep all other characters
-                })
-                .join("");
-        }
-        
+              .split("")
+              .filter((c) => {
+                if (!found && c === tileCharacter) {
+                  found = true; // Mark that we found and are removing the character
+                  return false; // Remove this character
+                }
+                return true; // Keep all other characters
+              })
+              .join("");
+          }
 
           // Existing logic for handling a successful drop
           const onRow = parseInt(
@@ -448,8 +450,6 @@ if (submitButton) {
   });
 }
 
-
-
 if (changeLettersButton) {
   changeLettersButton.addEventListener("click", () => {
     if (turn % 2 === 0) {
@@ -471,10 +471,20 @@ if (changeLettersButton) {
     }
   });
 }
-
+const startButton = document.getElementById("startButton");
 const loginButton = document.getElementById("loginButton1");
-const loginButton2 = document.getElementById("loginButton2"); 
-const createUserButton = document.getElementById("createUser"); 
+const loginButton2 = document.getElementById("loginButton2");
+const createUserButton = document.getElementById("createUser");
+
+const loginContainer = document.getElementById("login-container");
+const outerDiv = document.getElementById("outerDiv");
+
+if (startButton !== null) {
+  startButton.addEventListener("click", () => {
+    if (loginContainer) loginContainer.style.display = "none";
+    if (outerDiv) outerDiv.style.display = "block";
+  });
+}
 
 if (loginButton !== null) {
   loginButton.addEventListener("click", validateLogin);
@@ -484,6 +494,6 @@ if (loginButton2) {
   loginButton2.addEventListener("click", validateLogin2);
 }
 
-if (createUserButton){
-  createUserButton.addEventListener("click", validateUserCreation)
+if (createUserButton) {
+  createUserButton.addEventListener("click", validateUserCreation);
 }
