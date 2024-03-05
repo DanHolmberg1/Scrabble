@@ -68,7 +68,7 @@ function createBoard(boardElement, rows, cols, board) {
                     var tileCharacter_1 = draggable.innerText;
                     var draggableParentId = (_b = draggable.parentElement) === null || _b === void 0 ? void 0 : _b.id;
                     // Identify side/player container and remove character from the corresponding array
-                    if (draggableParentId && draggableParentId.includes("leftTiles")) {
+                    if (draggableParentId && draggableParentId.includes("leftTiles") && turn % 2 === 0) {
                         var found_1 = false; // Flag to indicate removal
                         leftLetters = leftLetters
                             .split("")
@@ -82,7 +82,7 @@ function createBoard(boardElement, rows, cols, board) {
                             .join("");
                     }
                     else if (draggableParentId &&
-                        draggableParentId.includes("rightTiles")) {
+                        draggableParentId.includes("rightTiles") && turn % 2 !== 0) {
                         var found_2 = false; // Flag to indicate removal
                         rightLetters = rightLetters
                             .split("")
@@ -122,9 +122,9 @@ function createBoard(boardElement, rows, cols, board) {
                     //console.log("after");
                     //console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
                     currentTurnPlacedTiles.push({
-                        row: onRow, // Assuming these are defined in your drop logic
+                        row: onRow,
                         col: onColl,
-                        char: tileCharacter_1, // The character of the tile placed
+                        char: tileCharacter_1,
                         origin: (draggableParentId === null || draggableParentId === void 0 ? void 0 : draggableParentId.includes("leftTiles")) ? "left" : "right", // Determine the origin based on draggableParentId
                     });
                     cell.appendChild(draggable);
@@ -196,8 +196,7 @@ var speicalSquares = [
  * @returns {void}
  */
 function makeTilesDraggable() {
-    // Query all your draggable tiles by a common class or other selector.
-    var tiles = document.querySelectorAll(".tile"); // Assuming '.tile' class for your tiles.
+    var tiles = document.querySelectorAll(".tile");
     tiles.forEach(function (tile) {
         tile.setAttribute("draggable", "true");
         tile.addEventListener("dragstart", function (event) {
@@ -293,11 +292,11 @@ function setupTakeBackTile() {
                 var tileIndex = currentTurnPlacedTiles.findIndex(function (t) { return t.row === rowIndex && t.col === colIndex; });
                 if (tileIndex !== -1) {
                     var tile = currentTurnPlacedTiles[tileIndex];
-                    if (tile.origin === "left") {
+                    if (tile.origin === "left" && turn % 2 === 0) {
                         leftLetters += tile.char;
                         (0, endTurn_1.refreshTiles)("leftTiles", leftLetters);
                     }
-                    else if (tile.origin === "right") {
+                    else if (tile.origin === "right" && turn % 2 !== 0) {
                         rightLetters += tile.char;
                         (0, endTurn_1.refreshTiles)("rightTiles", rightLetters);
                     }

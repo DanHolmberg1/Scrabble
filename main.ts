@@ -105,7 +105,7 @@ function createBoard(
           const draggableParentId = draggable.parentElement?.id;
 
           // Identify side/player container and remove character from the corresponding array
-          if (draggableParentId && draggableParentId.includes("leftTiles")) {
+          if (draggableParentId && draggableParentId.includes("leftTiles") && turn % 2 === 0) {
             let found = false; // Flag to indicate removal
             leftLetters = leftLetters
               .split("")
@@ -119,7 +119,7 @@ function createBoard(
               .join("");
           } else if (
             draggableParentId &&
-            draggableParentId.includes("rightTiles")
+            draggableParentId.includes("rightTiles") && turn % 2 !== 0
           ) {
             let found = false; // Flag to indicate removal
             rightLetters = rightLetters
@@ -172,9 +172,9 @@ function createBoard(
           //console.log("after");
           //console.log("spellchecking", checkWordsOnBoard(gameBoard, library));
           currentTurnPlacedTiles.push({
-            row: onRow, // Assuming these are defined in your drop logic
+            row: onRow, 
             col: onColl,
-            char: tileCharacter, // The character of the tile placed
+            char: tileCharacter, 
             origin: draggableParentId?.includes("leftTiles") ? "left" : "right", // Determine the origin based on draggableParentId
           });
           cell.appendChild(draggable);
@@ -242,8 +242,7 @@ const speicalSquares: number[][] = [
  * @returns {void}
  */
 export function makeTilesDraggable(): void {
-  // Query all your draggable tiles by a common class or other selector.
-  const tiles = document.querySelectorAll(".tile"); // Assuming '.tile' class for your tiles.
+  const tiles = document.querySelectorAll(".tile");
 
   tiles.forEach((tile) => {
     tile.setAttribute("draggable", "true");
@@ -348,10 +347,10 @@ function setupTakeBackTile() {
         if (tileIndex !== -1) {
           const tile = currentTurnPlacedTiles[tileIndex];
 
-          if (tile.origin === "left") {
+          if (tile.origin === "left" && turn % 2 === 0) {
             leftLetters += tile.char;
             refreshTiles("leftTiles", leftLetters);
-          } else if (tile.origin === "right") {
+          } else if (tile.origin === "right" && turn % 2 !== 0) {
             rightLetters += tile.char;
             refreshTiles("rightTiles", rightLetters);
           }

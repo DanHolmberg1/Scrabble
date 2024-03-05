@@ -1,7 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1709637984505" clover="3.2.0">
-  <project timestamp="1709637984505" name="All files">
-    <metrics statements="210" coveredstatements="167" conditionals="116" coveredconditionals="91" methods="37" coveredmethods="29" elements="363" coveredelements="287" complexity="0" loc="210" ncloc="210" packages="1" files="6" classes="6"/>
+<coverage generated="1709654886249" clover="3.2.0">
+  <project timestamp="1709654886250" name="All files">
+    <metrics statements="233" coveredstatements="190" conditionals="125" coveredconditionals="100" methods="39" coveredmethods="31" elements="397" coveredelements="321" complexity="0" loc="233" ncloc="233" packages="1" files="7" classes="7"/>
+    <file name="dfs.js" path="/home/Dan/Code/Github/Scrabble/lib/dfs.js">
+      <metrics statements="23" coveredstatements="23" conditionals="9" coveredconditionals="9" methods="2" coveredmethods="2"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="5" count="19" type="cond" truecount="7" falsecount="0"/>
+      <line num="10" count="16" type="stmt"/>
+      <line num="12" count="3" type="stmt"/>
+      <line num="13" count="3" type="stmt"/>
+      <line num="14" count="3" type="stmt"/>
+      <line num="15" count="3" type="stmt"/>
+      <line num="22" count="3" type="stmt"/>
+      <line num="23" count="12" type="stmt"/>
+      <line num="24" count="12" type="stmt"/>
+      <line num="25" count="12" type="stmt"/>
+      <line num="26" count="12" type="stmt"/>
+      <line num="28" count="3" type="stmt"/>
+      <line num="29" count="3" type="stmt"/>
+      <line num="31" count="1" type="stmt"/>
+      <line num="33" count="2" type="stmt"/>
+      <line num="34" count="2" type="stmt"/>
+      <line num="35" count="4" type="stmt"/>
+      <line num="36" count="8" type="cond" truecount="2" falsecount="0"/>
+      <line num="37" count="3" type="stmt"/>
+      <line num="41" count="2" type="stmt"/>
+      <line num="43" count="1" type="stmt"/>
+    </file>
     <file name="players.js" path="/home/Dan/Code/Github/Scrabble/lib/players.js">
       <metrics statements="61" coveredstatements="29" conditionals="32" coveredconditionals="13" methods="11" coveredmethods="8"/>
       <line num="2" count="1" type="stmt"/>
