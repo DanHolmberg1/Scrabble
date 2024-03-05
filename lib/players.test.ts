@@ -17,14 +17,14 @@ test("scoreTest2", () => {
     let playerScore: number = getPlayerScore(2);
     expect(playerScore).toEqual(50)
 });
-
+//reseting scores
 test("resetScores", () => {
     addPlayerScore(1, 50);
     resetScores();
     let playerScore: number = getPlayerScore(1);
     expect(playerScore).toEqual(0);
 });
-
+//testing adding and removing from currentWord and using getCurrentWord
 test("currentWordTest", () => {
     let testCell: cell<number,string> = {row: 2, col: 3, special: 4, char: "G"}
     addToCurrentWord(1, testCell);
@@ -40,7 +40,7 @@ test("currentWordTest", () => {
     removeFromCurrentWord(2, testCell);
     expect(player2.currentWords).toStrictEqual(testEmptyArray);
 });
-
+//testing resetting currentWord
 test("currentWordTest2", () => {
     let testCell: cell<number,string> = {row: 2, col: 3, special: 4, char: "G"}
     addToCurrentWord(2, testCell);
@@ -48,7 +48,7 @@ test("currentWordTest2", () => {
     resetCurrentWord();
     expect(getCurrentWord(2)).toStrictEqual(testEmptyArray);
 });
-
+//testing that removing from currentWord works as intended
 test("currentWordTest3", () => {
     let testCell: cell<number,string> = {row: 2, col: 3, special: 4, char: "G"}
     let testCell2: cell<number,string> = {row: 5, col: 2, special: 1, char: "A"}
@@ -56,12 +56,12 @@ test("currentWordTest3", () => {
     removeFromCurrentWord(1, testCell2);
     expect(getCurrentWord(1)).toStrictEqual([testCell]);
 });
-
+//testing if setUserName applies the correct name
 test("nameTest", () => {
     setUserName(1, "Anton");
     expect(player1.user).toBe("Anton")
 });
-
+//tests if the two conversion functions works as inteded
 test("jsonTest", () => {
     let testUser1: User = {userName: "Anton", password: "ost123", highScore: 0}
     let testUser2: User = {userName: "David", password: "tomater", highScore: 0}
