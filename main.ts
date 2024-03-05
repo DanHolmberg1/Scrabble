@@ -478,11 +478,15 @@ const createUserButton = document.getElementById("createUser");
 
 const loginContainer = document.getElementById("login-container");
 const outerDiv = document.getElementById("outerDiv");
+const p1HTML = document.getElementById("player1-name");
+const p2HTML = document.getElementById("player2-name");
 
 if (startButton !== null) {
   startButton.addEventListener("click", () => {
     if (loginContainer) loginContainer.style.display = "none";
     if (outerDiv) outerDiv.style.display = "block";
+    if (p1HTML) p1HTML.innerText = `${player1.user}`;
+    if (p2HTML) p2HTML.innerHTML = `${player2.user}`;
   });
 }
 

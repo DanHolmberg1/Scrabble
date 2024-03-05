@@ -417,12 +417,18 @@ var loginButton2 = document.getElementById("loginButton2");
 var createUserButton = document.getElementById("createUser");
 var loginContainer = document.getElementById("login-container");
 var outerDiv = document.getElementById("outerDiv");
+var p1HTML = document.getElementById("player1-name");
+var p2HTML = document.getElementById("player2-name");
 if (startButton !== null) {
     startButton.addEventListener("click", function () {
         if (loginContainer)
             loginContainer.style.display = "none";
         if (outerDiv)
             outerDiv.style.display = "block";
+        if (p1HTML)
+            p1HTML.innerText = "".concat(players_1.player1.user);
+        if (p2HTML)
+            p2HTML.innerHTML = "".concat(players_1.player2.user);
     });
 }
 if (loginButton !== null) {
