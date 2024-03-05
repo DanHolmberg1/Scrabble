@@ -1,6 +1,13 @@
 /*[draggable="false"] {
   user-select: none;
 }*/
+.center-top {
+  display: block;
+  position: relative;
+  width: auto; 
+  justify-content: center;
+}
+
 #centerBoard {
   display: flex;
   justify-content: center;
