@@ -1,7 +1,10 @@
 import {User} from "./lib/saveData"
 import {findUser, setUserName, makeNewUser} from "./lib/players"
 
-
+/**
+ * Takes username and password from the first log in form. If user exists and
+ * password matches the user is paired to player1.
+ */
 export function validateLogin(): void {
   const usernameInput = document.getElementById(
     "username1" //html id of username 1
@@ -21,6 +24,10 @@ export function validateLogin(): void {
   }
 }
 
+/**
+ * Takes username and password from the second log in form. If user exists and
+ * password matches the user is paired to player2.
+ */
 export function validateLogin2(): void {
   const usernameInput = document.getElementById(
     "username2" //html id of username 2
@@ -40,6 +47,11 @@ export function validateLogin2(): void {
   }
 }
 
+/**
+ * Takes username and the two passwords from the user creation form. If no User
+ * already exists with chosen username and the two passwords match a new User is
+ * created and saved.
+ */
 export function validateUserCreation(): void {
   const usernameInput = document.getElementById(
     "newUsername" //html id of username 1
