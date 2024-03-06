@@ -19,7 +19,7 @@ export function validateLogin(): void {
 
     if (password == playerUser.password && playerUser.userName !== "") {
       setUserName(1, username);
-      console.log("Success!");
+      console.log("Successfull login p1!");
     }
   }
 }
@@ -43,6 +43,7 @@ export function validateLogin2(): void {
     if (password == playerUser.password && playerUser.userName !== "") {
       setUserName(2, username);
       console.log("Success!");
+      alert("Successfull login p2!");
     }
   }
 }
@@ -71,6 +72,7 @@ export function validateUserCreation(): void {
 
     if (userCheck.userName == "" && password == passwordConfirmation){
       makeNewUser(username, password);
+      alert("New user created!")
     }
   }
 }
